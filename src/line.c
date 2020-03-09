@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 15:19:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/09 17:44:41 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/09 20:23:47 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	print_line(t_double_xyz start, t_double_xyz stop, t_int_xy color)
 	int		i;
 
 	i = 0;
-	if (start.z < 0 || stop.z < 0)
-		return ;//move to 3d
 	pos.x = start.x;
 	pos.y = start.y;
 	pos.z = 0;

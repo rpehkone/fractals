@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/09 15:53:37 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/09 16:24:02 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_error(char *error)
 {
-	printf("%s\n", error);
+	ft_putstr(error);
+	ft_putchar('\n');
 	exit(0);
 }
 
@@ -45,8 +46,9 @@ void	init_window(char *title)
 
 int		main(int argc, char **argv)
 {
-	if (argc != 2)
-		ft_error("usage: asd");
+	//if (argc != 2)
+	//	ft_error("usage: asd");
+	(void)argc;
 	(void)argv;
 	init_window("asd");
 	return (0);

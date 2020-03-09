@@ -6,30 +6,52 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/09 18:11:52 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/09 20:32:21 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
 
-void	draw(t_double_xyz *nodes, t_int_xy *lines, t_int_xy color)
+void	mega_pixel_put(int x, int y, int color)
 {
-	for (int i = 0; i <= 7; i++)
+	int i;
+	int j;
+
+	i = 0;
+	while (i < 8)
 	{
-		nodes[i].x += 400;
-		nodes[i].y += 400;
-		nodes[i].z += 700;
+		j = 0;
+		while (j < 8)
+		{
+			pixel_put(x + i, y + j, color);
+			j++;
+		}
+		i++;
 	}
-	for (int i = 0; i < 12; i++)
-	{
-		print_line(nodes[lines[i].x], nodes[lines[i].y], color);
-	}
-	for (int i = 0; i <= 7; i++)
-	{
-		nodes[i].x -= 400;
-		nodes[i].y -= 400;
-		nodes[i].z -= 700;
-	}
+}
+
+void	matrix_transform(t_double_xyz start, t_double_xyz stop, t_int_xy color)
+{
+	static int	obj_distance = 700;
+	//static int	focal_len = 1025;
+
+	if (is_mouse_down(4))
+		obj_distance -= 10;
+	if (is_mouse_down(5))
+		obj_distance += 10;
+	start.z += obj_distance;
+	stop.z += obj_distance;
+	start.x += 500;
+	start.y += 500;
+	stop.x += 500;
+	stop.y += 500;
+	/*start.x /= (start.z / focal_len);
+	start.y /= (start.z / focal_len);
+	stop.x /= (stop.z / focal_len);
+	stop.y /= (stop.z / focal_len);
+	*///if (/*perspective is on &&*/  start.z < 0 || stop.z < 0)
+	printf("%f\n", start.x);
+		print_line(start, stop, color);
 }
 
 void	engine(void)
@@ -37,86 +59,16 @@ void	engine(void)
 	static t_double_xyz		*nodes = NULL;
 	static t_int_xy			*lines = NULL;
 	static t_int_xy			color = {.x = 0x00FF00, .y = 0xFF0000};
+	static int old_mouse_x = 0;
+	static int old_mouse_y = 0;
+	t_int_xy c;
 
 	if (!lines)
 	{
-		lines = (t_int_xy*)malloc(sizeof(t_int_xy) * 12);
-		lines[0].x = 0;
-		lines[0].y = 1;
-
-		lines[4].x = 0;
-		lines[4].y = 2;
-
-		lines[5].x = 0;
-		lines[5].y = 4;
-
-		lines[1].x = 1;
-		lines[1].y = 3;
-
-		lines[2].x = 1;
-		lines[2].y = 5;
-
-		lines[3].x = 2;
-		lines[3].y = 3;
-
-		lines[6].x = 2;
-		lines[6].y = 6;
-
-		lines[7].x = 3;
-		lines[7].y = 7;
-
-		lines[8].x = 4;
-		lines[8].y = 5;
-
-		lines[9].x = 4;
-		lines[9].y = 6;
-
-		lines[10].x = 5;
-		lines[10].y = 7;
-
-		lines[11].x = 6;
-		lines[11].y = 7;
-
+		lines = get_lines();
+		nodes = get_nodes();
 	}
-	if (!nodes)
-	{
-		nodes = (t_double_xyz*)malloc(sizeof(t_double_xyz) * 8);
-		nodes[0].x = -100;
-		nodes[0].y = -100;
-		nodes[0].z = -100;
-
-		nodes[1].x = -100;
-		nodes[1].y = -100;
-		nodes[1].z = 100;
-
-		nodes[2].x = -100;
-		nodes[2].y = 100;
-		nodes[2].z = -100;
-
-		nodes[3].x = -100;
-		nodes[3].y = 100;
-		nodes[3].z = 100;
-
-		nodes[4].x = 100;
-		nodes[4].y = -100;
-		nodes[4].z = -100;
-
-		nodes[5].x = 100;
-		nodes[5].y = -100;
-		nodes[5].z = 100;
-
-		nodes[6].x = 100;
-		nodes[6].y = 100;
-		nodes[6].z = -100;
-
-		nodes[7].x = 100;
-		nodes[7].y = 100;
-		nodes[7].z = 100;
-	}
-	static int mx = 0;
-	static int my = 0;
-	t_int_xy c;
-
+	//read_file(&nodes, &lines, &v_amount, &l_amount);
 	c = get_cursor();
 	if (is_mouse_down(1) && c.x > 7 && c.x < 29)
 		exit(0);
@@ -124,12 +76,13 @@ void	engine(void)
 		exit(0);
 	if (is_mouse_down(1))
 	{
-		rotate_y(0.01 * (mx - c.x), nodes, 8);
-		rotate_x(-1 * 0.01 * (my - c.y), nodes, 8);
+		rotate_y(0.01 * (old_mouse_x - c.x), nodes, 8);
+		rotate_x(-1 * 0.01 * (old_mouse_y - c.y), nodes, 8);
 	}
-	mx = c.x;
-	my = c.y;
-	draw(nodes, lines, color);
+	old_mouse_x = c.x;
+	old_mouse_y = c.y;
+	for (int i = 0; i < 12; i++)
+		matrix_transform(nodes[lines[i].x], nodes[lines[i].y], color);
 	/*
 	pixel_put(0, 0, 0xFF0000);
 	pixel_put(0, 1, 0xFF0000);

@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/09 15:54:52 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/09 16:22:28 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FDF_H
 # include "mlx.h"
 # include "libft.h"
-# include "engine.h"
 
 typedef struct	s_int_xy {
 	int			x;
@@ -41,5 +40,7 @@ void			pixel_put(int x, int y, unsigned color);
 void			mlx_clear_image(void **mlx);
 void			init_image(void **mlx);
 void			ft_error(char *str);
+
+void			engine(void);
 
 #endif
