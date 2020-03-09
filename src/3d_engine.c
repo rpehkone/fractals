@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 14:43:12 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/09 15:59:34 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/09 16:39:47 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,25 @@
 void	engine(void)
 {
 	t_int_xy c;
+	t_int_xy color;
+	t_double_xyz asd;
+	t_double_xyz cursor;
+
 	c = get_cursor();
-	printf("x = %d\n", c.x);
-	printf("y = %d\n", c.y);
 	if (is_mouse_down(1) && c.x > 7 && c.x < 29)
 		exit(0);
 	if (is_key_down(53))
 		exit(0);
+	asd.x = 500;
+	asd.y = 500;
+	asd.z = 0;
+	cursor.x = c.x;
+	cursor.y = c.y;
+	cursor.z = 0;
+	color.x = 0xFF0000;
+	color.y = 0xFF0000;
+	print_line(asd, cursor, color);
+	/*
 	pixel_put(0, 0, 0xFF0000);
 	pixel_put(0, 1, 0xFF0000);
 	pixel_put(0, 2, 0xFF0000);
@@ -38,4 +50,5 @@ void	engine(void)
 	pixel_put(3, 1, 0xFF0000);
 	pixel_put(3, 2, 0xFF0000);
 	pixel_put(3, 3, 0xFF0000);
+	*/
 }
