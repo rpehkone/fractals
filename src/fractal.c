@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/10 20:42:34 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/10 22:08:36 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	fractal(t_float_xy pos, float zoom, int max_iter, int i)
 		x = 0;
 		while (x < 1280)
 		{
-			cx = x * ((16.0 * zoom) / 1280) + pos.x;
-			cy = y * ((9.0 * zoom) / 720) + pos.y;
+			cx = (x - 640) * ((16.0 * zoom) / 1280) + pos.x;
+			cy = (y - 360) * ((9.0 * zoom) / 720) + pos.y;
 			pixel_put(x, y, 0xFF - mandelbrot(cx, cy, max_iter) * 10);
 			x++;
 		}
