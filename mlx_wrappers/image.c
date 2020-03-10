@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 15:04:17 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/09 20:31:54 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/10 18:01:30 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	mlx_clear_image(void **mlx)
 		data = mlx_get_data_addr(mlx[2], &pixels, &a, &b);
 		//pixels = get_width(NULL);
 		//pixels *= get_height(NULL);
-		pixels = 1000 * 1000 * 4;
+		pixels = 1280 * 720 * 4;
 	}
 	ft_memset(data, 0, pixels);
 }
@@ -45,7 +45,7 @@ void	pixel_put(int x, int y, unsigned color)
 	static char	*data = NULL;
 	static int	bpp = 0;
 	static int	width = 0;
-	static int	height = 1000;
+	static int	height = 720;
 	static int	endian = 0;
 
 	if (!mlx)

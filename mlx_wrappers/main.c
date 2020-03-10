@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/09 16:24:02 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/10 17:34:15 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	init_window(char *title)
 	void	**mlx;
 
 	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 1000, 1000, title);
-	img_ptr = mlx_new_image(mlx_ptr, 1000, 1000);
+	win_ptr = mlx_new_window(mlx_ptr, 1280, 720, title);
+	img_ptr = mlx_new_image(mlx_ptr, 1280, 720);
 	if (!(mlx = (void **)malloc(sizeof(void *) * 3)))
 		ft_error("malloc_fail");
 	mlx[0] = mlx_ptr;
@@ -50,6 +50,6 @@ int		main(int argc, char **argv)
 	//	ft_error("usage: asd");
 	(void)argc;
 	(void)argv;
-	init_window("asd");
+	init_window("fractal");
 	return (0);
 }
