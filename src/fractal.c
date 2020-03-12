@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 19:10:55 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 19:24:47 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,24 @@ void	what_fractal(t_float_xy pos, float zoom, int max_iter, int i)
 	}
 }
 
-void	*split_threads(void *args)
+void	*split_screen(void *args)
 {
 	static int	s = 0;
 
 	s++;
 	if (s == 1)
-		what_fractal(((t_mand*)args)->pos, ((t_mand*)args)->zoom,
-				((t_mand*)args)->max_iter, 720);
+		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
+				((t_args*)args)->max_iter, 720);
 	else if (s == 2)
-		what_fractal(((t_mand*)args)->pos, ((t_mand*)args)->zoom,
-				((t_mand*)args)->max_iter, 540);
+		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
+				((t_args*)args)->max_iter, 540);
 	else if (s == 3)
-		what_fractal(((t_mand*)args)->pos, ((t_mand*)args)->zoom,
-				((t_mand*)args)->max_iter, 360);
+		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
+				((t_args*)args)->max_iter, 360);
 	else if (s == 4)
 	{
-		what_fractal(((t_mand*)args)->pos, ((t_mand*)args)->zoom,
-				((t_mand*)args)->max_iter, 180);
+		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
+				((t_args*)args)->max_iter, 180);
 		s = 0;
 	}
 	return (NULL);
@@ -70,7 +70,7 @@ void	*split_threads(void *args)
 
 void	make_threads(t_float_xy pos, float zoom, int max_iter)
 {
-	static t_mand	args;
+	t_args			args;
 	pthread_t		tid[4];
 	int				i;
 
@@ -80,7 +80,7 @@ void	make_threads(t_float_xy pos, float zoom, int max_iter)
 	i = 0;
 	while (i < 4)
 	{
-		pthread_create(&tid[i], NULL, split_threads, (void*)&args);
+		pthread_create(&tid[i], NULL, split_screen, (void*)&args);
 		i++;
 	}
 	i = 0;

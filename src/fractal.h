@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 18:49:37 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 19:23:09 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ typedef struct	s_float_xy {
 	float		y;
 }				t_float_xy;
 
-typedef struct	s_mand {
+typedef struct	s_args {
 	t_float_xy	pos;
 	float		zoom;
 	int			max_iter;
-}				t_mand;
+}				t_args;
 
 void			engine(void);
 void			mandelbrot_loop(t_float_xy pos, float zoom,
