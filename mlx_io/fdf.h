@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 17:45:05 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 19:33:22 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			mlx_clear_image(void **mlx);
 void			init_image(void **mlx);
 void			ft_error(char *str);
 
-void			engine(void);
+void			fractal(void);
 int				set_fractal(int f);
 
 #endif

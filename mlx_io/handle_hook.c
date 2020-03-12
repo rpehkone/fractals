@@ -6,17 +6,11 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 16:17:33 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/10 18:03:55 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 20:09:41 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-int		loop_hook(void **mlx)
-{
-	main_loop(mlx);
-	return (0);
-}
 
 int		handle_keyboard_down(int key, void **mlx)
 {

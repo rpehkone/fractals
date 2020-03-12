@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 19:24:47 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 19:27:08 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	make_threads(t_float_xy pos, float zoom, int max_iter)
 	}
 }
 
-void	engine(void)
+void	fractal(void)
 {
 	static t_float_xy	pos = {.x = 0, .y = 0};
 	static t_int_xy		oldc;

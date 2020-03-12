@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 17:01:10 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 20:03:32 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	init_window(char *title)
 
 void	put_usage(char *arg)
 {
-		ft_putstr("usage: ");
-		ft_putstr(arg);
-		ft_putstr(" [mandelbrot | julia | burningship]\n");
+	ft_putstr("usage: ");
+	ft_putstr(arg);
+	ft_putstr(" [mandelbrot | julia | burningship]\n");
 }
 
 int		main(int argc, char **argv)

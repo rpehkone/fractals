@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 19:23:09 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 19:34:23 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct	s_args {
 	int			max_iter;
 }				t_args;
 
-void			engine(void);
 void			mandelbrot_loop(t_float_xy pos, float zoom,
 														int max_iter, int i);
 void			julia_loop(t_float_xy pos, float zoom, int max_iter, int i);

@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_loop.c                                        :+:      :+:    :+:   */
+/*   input_state_wrappers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/08 20:58:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 20:09:31 by rpehkone         ###   ########.fr       */
+/*   Created: 2020/03/12 20:08:53 by rpehkone          #+#    #+#             */
+/*   Updated: 2020/03/12 20:08:56 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		loop_hook(void **mlx)
+t_int_xy	get_cursor(void)
 {
-	main_loop(mlx);
-	return (0);
+	return (set_cursor(0, 0, 0));
 }
 
-void	main_loop(void **mlx)
+int			is_mouse_down(int button)
 {
-	fractal();
-	mlx_put_image_to_window(mlx[0], mlx[1], mlx[2], 0, 0);
+	return (set_mouse(0, button));
+}
+
+int			is_key_down(int key)
+{
+	return (set_key(0, key));
 }

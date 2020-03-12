@@ -6,27 +6,11 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 22:35:09 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/10 17:50:47 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 20:04:53 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-t_int_xy	get_cursor(void)
-{
-	return (set_cursor(0, 0, 0));
-}
-
-int			is_mouse_down(int button)
-{
-	return(set_mouse(0, button));
-}
-
-int			is_key_down(int key)
-{
-	return(set_key(0, key));
-}
-
 
 t_int_xy	set_cursor(int call, int x, int y)
 {
