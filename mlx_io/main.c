@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/10 17:34:15 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 17:01:10 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_window(char *title)
 	win_ptr = mlx_new_window(mlx_ptr, 1280, 720, title);
 	img_ptr = mlx_new_image(mlx_ptr, 1280, 720);
 	if (!(mlx = (void **)malloc(sizeof(void *) * 3)))
-		ft_error("malloc_fail");
+		ft_error("malloc fail");
 	mlx[0] = mlx_ptr;
 	mlx[1] = win_ptr;
 	mlx[2] = img_ptr;
@@ -44,12 +44,33 @@ void	init_window(char *title)
 	mlx_loop(mlx_ptr);
 }
 
+void	put_usage(char *arg)
+{
+		ft_putstr("usage: ");
+		ft_putstr(arg);
+		ft_putstr(" [mandelbrot | julia | burningship]\n");
+}
+
 int		main(int argc, char **argv)
 {
-	//if (argc != 2)
-	//	ft_error("usage: asd");
-	(void)argc;
-	(void)argv;
-	init_window("fractal");
+	if (argc != 2)
+		put_usage(argv[0]);
+	else if (!ft_strcmp(argv[1], "mandelbrot"))
+	{
+		set_fractal(1);
+		init_window("mandlelbrot");
+	}
+	else if (!ft_strcmp(argv[1], "julia"))
+	{
+		set_fractal(2);
+		init_window("julia");
+	}
+	else if (!ft_strcmp(argv[1], "burningship"))
+	{
+		set_fractal(3);
+		init_window("burningship");
+	}
+	else
+		put_usage(argv[0]);
 	return (0);
 }
