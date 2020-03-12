@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 18:38:36 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 19:10:55 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ void	what_fractal(t_float_xy pos, float zoom, int max_iter, int i)
 		julia_loop(pos, zoom, max_iter, i);
 	}
 	else if (set_fractal(0) == 3)
-		;//burningship_loop(pos, zoom, max_iter, i);
+	{
+		pos.x /= (100 / zoom);
+		pos.y /= (100 / zoom);
+		burningship_loop(pos, zoom, max_iter, i);
+	}
 }
 
 void	*split_threads(void *args)
