@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 21:17:04 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 22:01:42 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ void	fractal(void)
 		pos.y -= ((float)c.y - oldc.y);
 	}
 	if (is_mouse_down(4))
-		zoom *= 1.3;
+		zoom *= 1.1;
 	if (is_mouse_down(5))
-		zoom *= (1.0 / 1.3);
+		zoom *= (1.0 / 1.1);
 	max_iter = is_key_down(126) ? max_iter + 1 : max_iter;
 	max_iter = is_key_down(125) ? max_iter - 1 : max_iter;
 	max_iter = max_iter < 0 ? 0 : max_iter;
