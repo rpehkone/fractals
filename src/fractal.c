@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 19:27:08 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/03/12 21:17:04 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	fractal(void)
 	c = get_cursor();
 	if (is_key_down(53))
 		exit(0);
-	if (set_fractal(0) == 2 || is_mouse_down(1))
+	if (is_mouse_down(1) || set_fractal(0) == 2)
 	{
 		pos.x -= ((float)c.x - oldc.x);
 		pos.y -= ((float)c.y - oldc.y);
