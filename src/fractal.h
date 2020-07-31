@@ -6,13 +6,13 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 20:12:26 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/07/31 17:39:44 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTAL_H
 # define FRACTAL_H
-# include "fdf.h"
+# include "mlx_io.h"
 # include <pthread.h>
 
 #include <stdio.h>
@@ -33,5 +33,6 @@ void			mandelbrot_loop(t_float_xy pos, float zoom,
 void			julia_loop(t_float_xy pos, float zoom, int max_iter, int i);
 void			burningship_loop(t_float_xy pos, float zoom,
 														int max_iter, int i);
+int				set_fractal(int i);
 
 #endif

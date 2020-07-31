@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/03/12 22:01:42 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/07/31 17:44:21 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	fractal(void)
 	static int			max_iter = 20;
 	t_int_xy			c;
 
+	update_image();
 	c = get_cursor();
 	if (is_key_down(53))
 		exit(0);

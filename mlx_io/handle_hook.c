@@ -10,43 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "mlx_io.h"
 
-int		handle_keyboard_down(int key, void **mlx)
+int		handle_keyboard_down(int key)
 {
 	set_key(1, key);
-	main_loop(mlx);
+	loop_hook();
 	return (0);
 }
 
-int		handle_keyboard_up(int key, void **mlx)
+int		handle_keyboard_up(int key)
 {
 	set_key(2, key);
-	main_loop(mlx);
+	loop_hook();
 	return (0);
 }
 
-int		handle_mouse_down(int button, int x, int y, void **mlx)
+int		handle_mouse_down(int button, int x, int y)
 {
 	set_mouse(1, button);
 	set_cursor(1, x, y);
-	main_loop(mlx);
+	loop_hook();
 	if (button == 4 || button == 5)
 		set_mouse(2, button);
 	return (0);
 }
 
-int		handle_mouse_up(int button, int x, int y, void **mlx)
+int		handle_mouse_up(int button, int x, int y)
 {
 	set_mouse(2, button);
 	set_cursor(1, x, y);
-	main_loop(mlx);
+	loop_hook();
 	return (0);
 }
 
-int		handle_cursor(int x, int y, void **mlx)
+int		handle_cursor(int x, int y)
 {
 	set_cursor(1, x, y);
-	main_loop(mlx);
+	loop_hook();
 	return (0);
 }
