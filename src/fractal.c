@@ -23,25 +23,25 @@ int		set_fractal(int f)
 	return (0);
 }
 
-void	what_fractal(t_float_xy pos, float zoom, int max_iter, int i)
+void	what_fractal(t_args *args, int i)
 {
 	if (set_fractal(0) == 1)
 	{
-		pos.x /= (100 / zoom);
-		pos.y /= (100 / zoom);
-		mandelbrot_loop(pos, zoom, max_iter, i);
+		args->pos.x /= (100 / args->zoom);
+		args->pos.y /= (100 / args->zoom);
+		mandelbrot_loop(args->pos, args->zoom, args->max_iter, i);
 	}
 	else if (set_fractal(0) == 2)
 	{
-		pos.x *= 10;
-		pos.y *= 10;
-		julia_loop(pos, zoom, max_iter, i);
+		args->pos.x *= 10;
+		args->pos.y *= 10;
+		julia_loop(args->pos, args->zoom, args->max_iter, i);
 	}
 	else if (set_fractal(0) == 3)
 	{
-		pos.x /= (100 / zoom);
-		pos.y /= (100 / zoom);
-		burningship_loop(pos, zoom, max_iter, i);
+		args->pos.x /= (100 / args->zoom);
+		args->pos.y /= (100 / args->zoom);
+		burningship_loop(args->pos, args->zoom, args->max_iter, i);
 	}
 }
 
@@ -51,36 +51,28 @@ void	*split_screen(void *args)
 
 	s++;
 	if (s == 1)
-		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
-				((t_args*)args)->max_iter, 720);
+		what_fractal((t_args*)args, 720);
 	else if (s == 2)
-		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
-				((t_args*)args)->max_iter, 540);
+		what_fractal((t_args*)args, 540);
 	else if (s == 3)
-		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
-				((t_args*)args)->max_iter, 360);
+		what_fractal((t_args*)args, 360);
 	else if (s == 4)
 	{
-		what_fractal(((t_args*)args)->pos, ((t_args*)args)->zoom,
-				((t_args*)args)->max_iter, 180);
+		what_fractal((t_args*)args, 180);
 		s = 0;
 	}
 	return (NULL);
 }
 
-void	make_threads(t_float_xy pos, float zoom, int max_iter)
+void	make_threads(t_args *args)
 {
-	t_args			args;
 	pthread_t		tid[4];
-	int				i;
+	int			i;
 
-	args.pos = pos;
-	args.zoom = zoom;
-	args.max_iter = max_iter;
 	i = 0;
 	while (i < 4)
 	{
-		pthread_create(&tid[i], NULL, split_screen, (void*)&args);
+		pthread_create(&tid[i], NULL, split_screen, (void*)args);
 		i++;
 	}
 	i = 0;
@@ -93,11 +85,10 @@ void	make_threads(t_float_xy pos, float zoom, int max_iter)
 
 void	fractal(void)
 {
-	static t_float_xy	pos = {.x = 0, .y = 0};
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20};
+
 	static t_int_xy		oldc;
-	static float		zoom = .3;
-	static int			max_iter = 20;
-	t_int_xy			c;
+	t_int_xy		c;
 
 	update_image();
 	c = get_cursor();
@@ -105,17 +96,18 @@ void	fractal(void)
 		exit(0);
 	if (is_mouse_down(1) || set_fractal(0) == 2)
 	{
-		pos.x -= ((float)c.x - oldc.x);
-		pos.y -= ((float)c.y - oldc.y);
+		args.pos.x -= ((float)c.x - oldc.x);
+		args.pos.y -= ((float)c.y - oldc.y);
 	}
 	if (is_mouse_down(4))
-		zoom *= 1.1;
+		args.zoom *= 1.1;
 	if (is_mouse_down(5))
-		zoom *= (1.0 / 1.1);
-	max_iter = is_key_down(126) ? max_iter + 1 : max_iter;
-	max_iter = is_key_down(125) ? max_iter - 1 : max_iter;
-	max_iter = max_iter < 0 ? 0 : max_iter;
+		args.zoom *= (1.0 / 1.1);
+	args.max_iter = is_key_down(126) ? args.max_iter + 1 : args.max_iter;
+	args.max_iter = is_key_down(125) ? args.max_iter - 1 : args.max_iter;
+	args.max_iter = args.max_iter < 0 ? 0 : args.max_iter;
 	oldc.x = c.x;
 	oldc.y = c.y;
-	make_threads(pos, zoom, max_iter);
+
+	make_threads(&args);
 }
