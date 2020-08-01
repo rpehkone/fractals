@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/07/31 17:39:44 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 10:42:26 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct	s_args {
 	float		zoom;
 	int			max_iter;
 	int			fractal_id;
+	int			*iteration;
 }				t_args;
 
 void			mandelbrot_loop(t_args *args, int start, int stop);

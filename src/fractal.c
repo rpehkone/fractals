@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/07/31 17:44:21 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 11:10:41 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ void	*split_screen(void *args)
 t_args	*init_fractal(int f)
 {
 	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20};
-	pthread_t		tid[4];
 	int			i;
+	pthread_t		tid[4];
 
 	if (f)
 	{
 		args.fractal_id = f;
 		return (NULL);
 	}
+	if (!(args.iteration = (int*)malloc(sizeof(int) * (1280 * 720))))
+		exit(0);
 	i = 0;
 	while (i < 4) //kuinka monta int, 5 paras?
 	{
@@ -53,6 +55,24 @@ t_args	*init_fractal(int f)
 		i++;
 	}
 	return (&args);
+}
+
+void	print_fractal(t_args *args)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < 720)
+	{
+		x = 0;
+		while (x < 1280)
+		{
+			pixel_put(x, y, args->iteration[(y * 1280 + x)]);
+			x++;
+		}
+		y++;
+	}
 }
 
 void	fractal(void)
@@ -81,4 +101,5 @@ void	fractal(void)
 	args->max_iter = args->max_iter < 0 ? 0 : args->max_iter;
 	oldc.x = c.x;
 	oldc.y = c.y;
+	print_fractal(args);
 }
