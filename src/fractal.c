@@ -67,12 +67,7 @@ void	make_threads(t_args *args)
 	while (i < 4)
 	{
 		pthread_create(&tid[i], NULL, split_screen, (void*)args);
-		i++;
-	}
-	i = 0;
-	while (i < 4)
-	{
-		pthread_join(tid[i], NULL);
+		usleep(100);
 		i++;
 	}
 }
@@ -103,5 +98,10 @@ void	fractal(void)
 	oldc.x = c.x;
 	oldc.y = c.y;
 
-	make_threads(&args);
+	static int asd = 1;
+	if (asd)
+	{
+		make_threads(&args);
+		asd = 0;
+	}
 }
