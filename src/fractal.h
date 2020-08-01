@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 12:05:32 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 14:50:23 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_args {
 	int			threads_ready;
 	int			sync_threads;
 	int			which;
+	int			color;
 }				t_args;
 
 void			mandelbrot(t_args *args, int start, int stop);

@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 12:08:26 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 13:25:32 by rpehkone         ###   ########.fr       */
 /* ************************************************************************** */
 
 #include "fractal.h"
@@ -46,8 +46,8 @@ void	julia(t_args *args, int start, int stop)
 	while (1)
 	{
 		y = start;
-		pos.y = args->pos.x * 1;
-		pos.x = args->pos.y * -1;
+		pos.x = args->pos.x + 1280;
+		pos.y = args->pos.y + 720;
 		while (y < stop)
 		{
 			x = 0;

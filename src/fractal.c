@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 12:20:02 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 15:49:29 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*split_screen(void *args)
 
 t_args	*init_fractal(int f)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20, .sync_threads = 1, .which = 1, .threads_ready = 0};
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 50, .sync_threads = 1, .which = 1, .threads_ready = 0, .color = 0};
 	int			i;
 	pthread_t		tid[4];
 
@@ -61,8 +61,56 @@ t_args	*init_fractal(int f)
 	return (&args);
 }
 
+void		color_settings(t_args *args)
+{
+	//alussa rng vari
+	static int last_down = 0;
+	if (!last_down)
+	{
+		args->color = is_key_down(124) ? args->color + 1 : args->color;
+		args->color = is_key_down(123) ? args->color - 1 : args->color;
+	}
+	if (args->color < 0)
+		args->color = 10;
+	else if (args->color > 10)
+		args->color = 0;
+	last_down = is_key_down(124) || is_key_down(123) ? 1 : 0;
+}
+
+int		select_color(int color, int max, int iteration)
+{
+	if (color == 0)
+		return (iteration < max ? 0xFFFFFF : 0);
+	else if (color == 1)
+	{
+		if (iteration == max)
+			return (0xFFFFFF);
+		float asd = ((float)(max - iteration) / max);
+		int a = 0xFF * asd;
+		return ((0xFF0000) + (a* 0x100) + a);
+	}
+	else if (color == 2)
+	{
+		int asd = 0xFF - iteration;
+		if (iteration < max)
+			return ((asd * 0x10000) + (asd * 0x100 / 2) + asd / 2);
+		else
+			return (0xFFFFFF);
+	}
+	else if (color == 10)
+	{
+		int asd = 0xFF - iteration;
+		if (iteration < max / 2)
+			return (asd * 0x100 / 2) + asd / 2;
+		else
+			return (0xFFFFFF);
+	}
+	return (0);
+}
+
 void	print_fractal(t_args *args)
 {
+	//eli kaikkia asetuksia pitaa doublebufferoid muuten kesken kaiken
 	int	x;
 	int	y;
 
@@ -74,18 +122,15 @@ void	print_fractal(t_args *args)
 	int other = args->which;
 	args->which = args->which ? 0 : 1;
 	args->sync_threads = 0;
-	usleep(100);
+	usleep(1000);
 	args->sync_threads = 1;
+	color_settings(args);
 	while (y < 720)
 	{
 		x = 0;
 		while (x < 1280)
 		{
-			//alussa rng vari
-			if (args->iteration[other][(y * 1280 + x)] < args->max_iter)
-				pixel_put(x, y, 0xFF);
-			else
-				pixel_put(x, y, 0);
+			pixel_put(x, y, select_color(args->color, args->max_iter, args->iteration[other][y * 1280 + x]));
 			x++;
 		}
 		y++;
