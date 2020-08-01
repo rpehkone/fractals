@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 15:57:01 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 17:47:34 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ void	burningship(t_args *args, int start, int stop)
 	t_float_xy	pos;
 
 	//alottaa siita laivasta
+	args->color = 2;
+	args->pos.x = -175;
+	args->pos.y = -3;
+	args->zoom = 0.0117;
 	while (1)
 	{
 		usleep(100);
