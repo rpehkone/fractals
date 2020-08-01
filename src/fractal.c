@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 11:21:43 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 12:20:02 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*split_screen(void *args)
 
 t_args	*init_fractal(int f)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20};
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20, .sync_threads = 1, .which = 1, .threads_ready = 0};
 	int			i;
 	pthread_t		tid[4];
 
@@ -45,7 +45,11 @@ t_args	*init_fractal(int f)
 		args.fractal_id = f;
 		return (NULL);
 	}
-	if (!(args.iteration = (int*)malloc(sizeof(int) * (1280 * 720))))
+	if (!(args.iteration = (int**)malloc(sizeof(int*) * 2)))
+		exit(0);
+	if (!(args.iteration[0] = (int*)malloc(sizeof(int) * (1280 * 720))))
+		exit(0);
+	if (!(args.iteration[1] = (int*)malloc(sizeof(int) * (1280 * 720))))
 		exit(0);
 	i = 0;
 	while (i < 4) //kuinka monta int, 5 paras?
@@ -63,12 +67,22 @@ void	print_fractal(t_args *args)
 	int	y;
 
 	y = 0;
+	while (args->threads_ready < 4)
+		usleep(10);
+	usleep(100);
+	args->threads_ready = 0;
+	int other = args->which;
+	args->which = args->which ? 0 : 1;
+	args->sync_threads = 0;
+	usleep(100);
+	args->sync_threads = 1;
 	while (y < 720)
 	{
 		x = 0;
 		while (x < 1280)
 		{
-			if (args->iteration[(y * 1280 + x)] < args->max_iter)
+			//alussa rng vari
+			if (args->iteration[other][(y * 1280 + x)] < args->max_iter)
 				pixel_put(x, y, 0xFF);
 			else
 				pixel_put(x, y, 0);

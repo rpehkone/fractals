@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/07/31 17:42:25 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 11:40:41 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int		main(int argc, char **argv)
 
 	width = 1280;
 	height = 720;
+	// vai argc < 2
 	if (argc != 2)
 		put_usage(argv[0]);
 	else if (!ft_strcmp(argv[1], "mandelbrot"))
