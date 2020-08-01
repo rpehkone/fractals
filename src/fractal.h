@@ -26,11 +26,12 @@ typedef struct	s_args {
 	t_float_xy	pos;
 	float		zoom;
 	int			max_iter;
+	int			fractal_id;
 }				t_args;
 
 void			mandelbrot_loop(t_args *args, int start, int stop);
 void			julia_loop(t_args *args, int start, int stop);
 void			burningship_loop(t_args *args, int start, int stop);
-int				set_fractal(int i);
+t_args				*set_fractal(int i);
 
 #endif

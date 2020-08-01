@@ -12,96 +12,74 @@
 
 #include "fractal.h"
 
-int		set_fractal(int f)
-{
-	static int	fractal_id = -1;
-
-	if (!f)
-		return (fractal_id);
-	if (fractal_id == -1)
-		fractal_id = f;
-	return (0);
-}
-
-void	what_fractal(t_args *args, int start, int stop)
-{
-	if (set_fractal(0) == 1)
-	{
-		mandelbrot_loop(args, start, stop);
-	}
-	else if (set_fractal(0) == 2)
-	{
-		julia_loop(args, start, stop);
-	}
-	else if (set_fractal(0) == 3)
-	{
-		burningship_loop(args, start, stop);
-	}
-}
-
 void	*split_screen(void *args)
 {
-	static int	s = 0;
+	static int	start = 0;
+	static int	stop = 0;
 
-	s++;
-	if (s == 1)
-		what_fractal((t_args*)args, 540, 720);
-	else if (s == 2)
-		what_fractal((t_args*)args, 360, 540);
-	else if (s == 3)
-		what_fractal((t_args*)args, 180, 360);
-	else if (s == 4)
+	stop += 180;
+	if (((t_args*)args)->fractal_id == 1)
 	{
-		what_fractal((t_args*)args, 0, 180);
-		s = 0;
+		mandelbrot_loop((t_args*)args, start, stop);
 	}
+	else if (((t_args*)args)->fractal_id == 2)
+	{
+		julia_loop((t_args*)args, start, stop);
+	}
+	else if (((t_args*)args)->fractal_id == 3)
+	{
+		burningship_loop((t_args*)args, start, stop);
+	}
+	start += 180;
 	return (NULL);
 }
 
-void	make_threads(t_args *args)
+// init fractal
+t_args	*set_fractal(int f)
 {
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20};
 	pthread_t		tid[4];
 	int			i;
 
-	i = 0;
-	while (i < 4)
+	if (f)
 	{
-		pthread_create(&tid[i], NULL, split_screen, (void*)args);
+		args.fractal_id = f;
+		return (NULL);
+	}
+	i = 0;
+	while (i < 4) //kuinka monta int, 5 paras?
+	{
+		pthread_create(&tid[i], NULL, split_screen, (void*)&args);
 		usleep(100);
 		i++;
 	}
+	return (&args);
 }
 
 void	fractal(void)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20};
-
+	static t_args	*args = NULL;
 	static t_int_xy		oldc;
 	t_int_xy		c;
 
-	update_image();
-	c = get_cursor();
 	if (is_key_down(53))
 		exit(0);
-	if (is_mouse_down(1) || set_fractal(0) == 2)
+	if (!args)
+		args = set_fractal(0);
+	update_image();
+	c = get_cursor();
+	if (is_mouse_down(1) || args->fractal_id == 2)
 	{
-		args.pos.x -= ((float)c.x - oldc.x);
-		args.pos.y -= ((float)c.y - oldc.y);
+		args->pos.x -= ((float)c.x - oldc.x);
+		args->pos.y -= ((float)c.y - oldc.y);
 	}
 	if (is_mouse_down(4))
-		args.zoom *= 1.1;
+		args->zoom *= 1.1;
 	if (is_mouse_down(5))
-		args.zoom *= (1.0 / 1.1);
-	args.max_iter = is_key_down(126) ? args.max_iter + 1 : args.max_iter;
-	args.max_iter = is_key_down(125) ? args.max_iter - 1 : args.max_iter;
-	args.max_iter = args.max_iter < 0 ? 0 : args.max_iter;
+		args->zoom *= (1.0 / 1.1);
+	args->max_iter = is_key_down(126) ? args->max_iter + 1 : args->max_iter;
+	args->max_iter = is_key_down(125) ? args->max_iter - 1 : args->max_iter;
+	args->max_iter = args->max_iter < 0 ? 0 : args->max_iter;
 	oldc.x = c.x;
 	oldc.y = c.y;
-
-	static int asd = 1;
-	if (asd)
-	{
-		make_threads(&args);
-		asd = 0;
-	}
 }
