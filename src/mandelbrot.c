@@ -32,26 +32,20 @@ int		mandelbrot(float cx, float cy, int max_iter)
 	return (iteration);
 }
 
-void	mandelbrot_loop(t_args *args, int i)
+void	mandelbrot_loop(t_args *args, int start, int stop)
 {
 	float	cx;
 	float	cy;
 	int		x;
 	int		y;
+	t_float_xy pos;
 
 	while (1)
 	{
-		y = 0;
-		if (i == 720)
-			y = 540;
-		else if (i == 540)
-			y = 360;
-		else if (i == 360)
-			y = 180;
-		t_float_xy pos;
+		y = start;
 		pos.x = args->pos.x / (100 / args->zoom);
 		pos.y = args->pos.y / (100 / args->zoom);
-		while (y < i)
+		while (y < stop)
 		{
 			x = 0;
 			while (x < 1280)

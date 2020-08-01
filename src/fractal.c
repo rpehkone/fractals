@@ -23,19 +23,19 @@ int		set_fractal(int f)
 	return (0);
 }
 
-void	what_fractal(t_args *args, int i)
+void	what_fractal(t_args *args, int start, int stop)
 {
 	if (set_fractal(0) == 1)
 	{
-		mandelbrot_loop(args, i);
+		mandelbrot_loop(args, start, stop);
 	}
 	else if (set_fractal(0) == 2)
 	{
-		julia_loop(args, i);
+		julia_loop(args, start, stop);
 	}
 	else if (set_fractal(0) == 3)
 	{
-		burningship_loop(args, i);
+		burningship_loop(args, start, stop);
 	}
 }
 
@@ -45,14 +45,14 @@ void	*split_screen(void *args)
 
 	s++;
 	if (s == 1)
-		what_fractal((t_args*)args, 720);
+		what_fractal((t_args*)args, 540, 720);
 	else if (s == 2)
-		what_fractal((t_args*)args, 540);
+		what_fractal((t_args*)args, 360, 540);
 	else if (s == 3)
-		what_fractal((t_args*)args, 360);
+		what_fractal((t_args*)args, 180, 360);
 	else if (s == 4)
 	{
-		what_fractal((t_args*)args, 180);
+		what_fractal((t_args*)args, 0, 180);
 		s = 0;
 	}
 	return (NULL);

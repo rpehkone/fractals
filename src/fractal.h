@@ -28,9 +28,9 @@ typedef struct	s_args {
 	int			max_iter;
 }				t_args;
 
-void			mandelbrot_loop(t_args *args, int i);
-void			julia_loop(t_args *args, int i);
-void			burningship_loop(t_args *args, int i);
+void			mandelbrot_loop(t_args *args, int start, int stop);
+void			julia_loop(t_args *args, int start, int stop);
+void			burningship_loop(t_args *args, int start, int stop);
 int				set_fractal(int i);
 
 #endif
