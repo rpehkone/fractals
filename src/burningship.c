@@ -41,7 +41,7 @@ int		burningship(float cx, float cy, int max_iter)
 	return (iteration);
 }
 
-void	burningship_loop(t_float_xy pos, float zoom, int max_iter, int i)
+void	burningship_loop(t_args *args, int i)
 {
 	float	cx;
 	float	cy;
@@ -55,14 +55,17 @@ void	burningship_loop(t_float_xy pos, float zoom, int max_iter, int i)
 		y = 360;
 	else if (i == 360)
 		y = 180;
+	t_float_xy pos;
+	pos.x = args->pos.x / (100 / args->zoom);
+	pos.y = args->pos.y / (100 / args->zoom);
 	while (y < i)
 	{
 		x = 0;
 		while (x < 1280)
 		{
-			cx = (x - 640) * ((16.0 * zoom) / 1280) + pos.x / zoom;
-			cy = (y - 360) * ((9.0 * zoom) / 720) + pos.y / zoom;
-			pixel_put(x, y, 0xFF - burningship(cx, cy, max_iter) * 10);
+			cx = (x - 640) * ((16.0 * args->zoom) / 1280) + pos.x / args->zoom;
+			cy = (y - 360) * ((9.0 * args->zoom) / 720) + pos.y / args->zoom;
+			pixel_put(x, y, 0xFF - burningship(cx, cy, args->max_iter) * 10);
 			x++;
 		}
 		y++;

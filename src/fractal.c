@@ -27,21 +27,15 @@ void	what_fractal(t_args *args, int i)
 {
 	if (set_fractal(0) == 1)
 	{
-		args->pos.x /= (100 / args->zoom);
-		args->pos.y /= (100 / args->zoom);
-		mandelbrot_loop(args->pos, args->zoom, args->max_iter, i);
+		mandelbrot_loop(args, i);
 	}
 	else if (set_fractal(0) == 2)
 	{
-		args->pos.x *= 10;
-		args->pos.y *= 10;
-		julia_loop(args->pos, args->zoom, args->max_iter, i);
+		julia_loop(args, i);
 	}
 	else if (set_fractal(0) == 3)
 	{
-		args->pos.x /= (100 / args->zoom);
-		args->pos.y /= (100 / args->zoom);
-		burningship_loop(args->pos, args->zoom, args->max_iter, i);
+		burningship_loop(args, i);
 	}
 }
 

@@ -16,7 +16,7 @@
 # include <pthread.h>
 
 #include <stdio.h>
-
+//poista taa struct?
 typedef struct	s_float_xy {
 	float		x;
 	float		y;
@@ -28,11 +28,9 @@ typedef struct	s_args {
 	int			max_iter;
 }				t_args;
 
-void			mandelbrot_loop(t_float_xy pos, float zoom,
-														int max_iter, int i);
-void			julia_loop(t_float_xy pos, float zoom, int max_iter, int i);
-void			burningship_loop(t_float_xy pos, float zoom,
-														int max_iter, int i);
+void			mandelbrot_loop(t_args *args, int i);
+void			julia_loop(t_args *args, int i);
+void			burningship_loop(t_args *args, int i);
 int				set_fractal(int i);
 
 #endif
