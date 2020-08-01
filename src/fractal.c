@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 11:10:41 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 11:21:43 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void	*split_screen(void *args)
 	stop += 180;
 	if (((t_args*)args)->fractal_id == 1)
 	{
-		mandelbrot_loop((t_args*)args, start, stop);
+		mandelbrot((t_args*)args, start, stop);
 	}
 	else if (((t_args*)args)->fractal_id == 2)
 	{
-		julia_loop((t_args*)args, start, stop);
+		julia((t_args*)args, start, stop);
 	}
 	else if (((t_args*)args)->fractal_id == 3)
 	{
-		burningship_loop((t_args*)args, start, stop);
+		burningship((t_args*)args, start, stop);
 	}
 	start += 180;
 	return (NULL);
@@ -68,7 +68,10 @@ void	print_fractal(t_args *args)
 		x = 0;
 		while (x < 1280)
 		{
-			pixel_put(x, y, args->iteration[(y * 1280 + x)]);
+			if (args->iteration[(y * 1280 + x)] < args->max_iter)
+				pixel_put(x, y, 0xFF);
+			else
+				pixel_put(x, y, 0);
 			x++;
 		}
 		y++;

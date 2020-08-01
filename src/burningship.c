@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 11:15:10 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 11:18:52 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ float	ft_abs(float n)
 	return (n);
 }
 
-int		burningship(float cx, float cy, int max_iter)
+int		burningship_iteration(float cx, float cy, int max_iter)
 {
 	float	zx;
 	float	zy;
@@ -41,7 +41,7 @@ int		burningship(float cx, float cy, int max_iter)
 	return (iteration);
 }
 
-void	burningship_loop(t_args *args, int start, int stop)
+void	burningship(t_args *args, int start, int stop)
 {
 	float	cx;
 	float	cy;
@@ -62,7 +62,7 @@ void	burningship_loop(t_args *args, int start, int stop)
 			{
 				cx = (x - 640) * ((16.0 * args->zoom) / 1280) + pos.x / args->zoom;
 				cy = (y - 360) * ((9.0 * args->zoom) / 720) + pos.y / args->zoom;
-				args->iteration[x + ((start + y) * 1280)] = 0xFF - burningship(cx, cy, args->max_iter) * 10;
+				args->iteration[x + ((start + y) * 1280)] = burningship_iteration(cx, cy, args->max_iter);
 				x++;
 			}
 			y++;

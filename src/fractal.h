@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 10:42:26 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 11:19:44 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ typedef struct	s_args {
 	int			*iteration;
 }				t_args;
 
-void			mandelbrot_loop(t_args *args, int start, int stop);
-void			julia_loop(t_args *args, int start, int stop);
-void			burningship_loop(t_args *args, int start, int stop);
+void			mandelbrot(t_args *args, int start, int stop);
+void			julia(t_args *args, int start, int stop);
+void			burningship(t_args *args, int start, int stop);
 t_args				*init_fractal(int i);
 
 #endif
