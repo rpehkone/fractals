@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 15:49:29 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/01 17:39:12 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,42 @@ int		select_color(int color, int max, int iteration)
 			return (0xFFFFFF);
 		float asd = ((float)(max - iteration) / max);
 		int a = 0xFF * asd;
-		return ((0xFF0000) + (a* 0x100) + a);
+		return ((a * 0x10000) + (a * 0x100) + 0xFF);
 	}
 	else if (color == 2)
 	{
-		int asd = 0xFF - iteration;
-		if (iteration < max)
-			return ((asd * 0x10000) + (asd * 0x100 / 2) + asd / 2);
-		else
+		if (iteration == max)
 			return (0xFFFFFF);
+		else if (iteration < max / 2)
+		{
+			max /= 2;
+			float asd = ((float)(max - iteration) / max);
+			int a = 0xFF - 0xFF * asd;
+			return ((a * 0x10000));
+		}
+		else
+		{
+			iteration /= 2;
+			max /= 2;
+			float asd = (float)iteration / max;
+			int a = 0xFF * asd;
+			return ((0xFF0000) + (a * 0x100) + 0);
+		}
+	}
+	else if (color == 3)
+	{
+		if (iteration == max)
+			return (0xFFFFFF);
+		else if (iteration % 2)
+			return (0xFF7777);
+		else
+			return (0xFFCCCC);
+	}
+	else if (color == 4)
+	{
+		if (iteration == max)
+			return (0xFF0000);
+		return (-216380416);
 	}
 	else if (color == 10)
 	{
