@@ -30,17 +30,17 @@ int		main(int argc, char **argv)
 		put_usage(argv[0]);
 	else if (!ft_strcmp(argv[1], "mandelbrot"))
 	{
-		set_fractal(1);
+		init_fractal(1);
 		init_window(width, height, "mandlelbrot");
 	}
 	else if (!ft_strcmp(argv[1], "julia"))
 	{
-		set_fractal(2);
+		init_fractal(2);
 		init_window(width, height, "julia");
 	}
 	else if (!ft_strcmp(argv[1], "burningship"))
 	{
-		set_fractal(3);
+		init_fractal(3);
 		init_window(width, height, "burningship");
 	}
 	else

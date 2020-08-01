@@ -34,8 +34,7 @@ void	*split_screen(void *args)
 	return (NULL);
 }
 
-// init fractal
-t_args	*set_fractal(int f)
+t_args	*init_fractal(int f)
 {
 	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 20};
 	pthread_t		tid[4];
@@ -65,7 +64,7 @@ void	fractal(void)
 	if (is_key_down(53))
 		exit(0);
 	if (!args)
-		args = set_fractal(0);
+		args = init_fractal(0);
 	update_image();
 	c = get_cursor();
 	if (is_mouse_down(1) || args->fractal_id == 2)

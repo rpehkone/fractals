@@ -32,6 +32,6 @@ typedef struct	s_args {
 void			mandelbrot_loop(t_args *args, int start, int stop);
 void			julia_loop(t_args *args, int start, int stop);
 void			burningship_loop(t_args *args, int start, int stop);
-t_args				*set_fractal(int i);
+t_args				*init_fractal(int i);
 
 #endif
