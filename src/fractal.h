@@ -38,5 +38,6 @@ void			mandelbrot(t_args *args, int start, int stop);
 void			julia(t_args *args, int start, int stop);
 void			burningship(t_args *args, int start, int stop);
 t_args				*init_fractal(int i);
-
+void			color_settings(t_args *args);
+int			select_color(int color, int max, int other, int iteration);
 #endif

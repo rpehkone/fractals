@@ -14,7 +14,7 @@ NAME = fractal
 LIB = libft/libft.a
 FOLDERS = libft mlx_io src
 IO_FILES = init_window.c handle_hook.c input_state.c input_state_wrappers.c image.c
-FILES = main.c fractal.c mandelbrot.c julia.c burningship.c
+FILES = main.c fractal.c colors.c mandelbrot.c julia.c burningship.c
 .PHONY: clean fclean re all
 
 all: $(NAME)
