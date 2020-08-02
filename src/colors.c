@@ -12,6 +12,27 @@
 
 #include "fractal.h"
 
+/*
+int		set_gradient_color(int x, int y)
+{
+	double	red;
+	double	grn;
+	double	blu;
+	int		i;
+
+	i = 0;
+	while (i < 310)
+	{
+		red = sin(0.02 * i + 0) * 127 + 128;
+		grn = sin(0.02 * i + 2) * 127 + 128;
+		blu = sin(0.02 * i + 4) * 127 + 128;
+		if (i == x && y < 450 && y > 30)
+			return ((int)red * 65536 + (int)grn * 256 + (int)blu);
+		i++;
+	}
+	return (0);
+}
+*/
 int		get_color_7(float fade, int max, int other, int iteration)
 {
 	(void)fade;
@@ -25,6 +46,12 @@ int		get_color_7(float fade, int max, int other, int iteration)
 
 int		get_color_6(float fade, int max, int other, int iteration)
 {
+	/*
+		red = 120 + rand(120);
+		yellow = 120 + rand(120);
+		yellow = 120 + rand(120);
+		sleep(rand(100))
+	*/
 	static int other2 = 0;
 	static int asd = 0;
 
@@ -60,7 +87,7 @@ int		get_color_5(float fade, int max, int other, int iteration)
 		other2 = other;
 		asd++;
 	}
-	if (asd > 12)
+	if (asd > 16)
 		asd = 0;
 	if (iteration == max)
 		return (0xFFFFFF);
@@ -103,8 +130,9 @@ int		select_color(int color, int max, int other, int iteration)
 
 void		color_settings(t_args *args)
 {
-	//at start rng vari
 	static int last_down = 0;
+
+	//at start rng vari
 	if (!last_down)
 	{
 		args->color = is_key_down(124) ? args->color + 1 : args->color;
