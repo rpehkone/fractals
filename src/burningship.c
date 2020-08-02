@@ -49,7 +49,7 @@ void	burningship(t_args *args, int start, int stop)
 	int		y;
 	t_float_xy	pos;
 
-	//alottaa siita laivasta
+	//color 6 animoitu kaikkiin?
 	args->color = 2;
 	args->pos.x = -175;
 	args->pos.y = -3;

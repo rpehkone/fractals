@@ -92,6 +92,7 @@ void	print_fractal(t_args *args)
 
 void	fractal(void)
 {
+//jos on huono fps laskee resoluutiota
 	static t_args	*args = NULL;
 	static t_int_xy		oldc;
 	t_int_xy		c;
