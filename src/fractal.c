@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:52:46 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:57:54 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*split_screen(void *args)
 
 	params.sched_priority = sched_get_priority_max(SCHED_FIFO);
 	pthread_setschedparam(pthread_self(), SCHED_FIFO, &params);
-	stop += HEIGHT / 4;
+	stop += HEIGHT / THREAD_COUNT;
 	if (((t_args*)args)->fractal_id == 1)
 	{
 		mandelbrot((t_args*)args, start, stop);
@@ -54,7 +54,7 @@ void	*split_screen(void *args)
 	{
 		burningship((t_args*)args, start, stop);
 	}
-	start += HEIGHT / 4;
+	start += HEIGHT / THREAD_COUNT;
 	return (NULL);
 }
 
@@ -62,7 +62,7 @@ t_args	*init_fractal(int f)
 {
 	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 40, .sync_threads = 1, .which = 0, .threads_ready = 0, .color = 0};
 	int			i;
-	pthread_t		tid[4];
+	pthread_t		tid[THREAD_COUNT];
 
 	if (f)
 	{
@@ -76,7 +76,7 @@ t_args	*init_fractal(int f)
 	if (!(args.iteration[1] = (int*)malloc(sizeof(int) * (WIDTH * HEIGHT))))
 		exit(0);
 	i = 0;
-	while (i < 4) //kuinka monta int, 5 paras?
+	while (i < THREAD_COUNT)
 	{
 		pthread_create(&tid[i], NULL, split_screen, (void*)&args);
 		usleep(10000);
@@ -101,7 +101,7 @@ void	print_fractal(t_args *args)
 
 	int old_max_iter = args->max_iter;
 	y = 0;
-	while (args->threads_ready < 4)
+	while (args->threads_ready < THREAD_COUNT)
 		usleep(10);
 	int other = args->which;
 	args->which = args->which ? 0 : 1;
@@ -112,7 +112,7 @@ void	print_fractal(t_args *args)
 
 	args->threads_ready = 0;
 	args->sync_threads = 0;
-	while (args->out_sync < 4)
+	while (args->out_sync < THREAD_COUNT)
 		usleep(10);
 	args->out_sync = 0;
 	args->sync_threads = 1;
