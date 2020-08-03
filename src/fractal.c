@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 21:04:52 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 21:10:29 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ t_args	*init_fractal(int f)
 	{
 		args.fractal_id = f;
 		return (NULL);
+	}
+	if (args.fractal_id = 2)
+	{
+		args->color = 6;
+		args->pos.x = -175;
+		args->pos.y = -3;
+		args->zoom = 0.0117;
+		args->pos2.x = -175;
+		args->pos2.y = -3;
+		args->zoom2 = 0.0117;
 	}
 	if (!(args.dbuffer = (int**)malloc(sizeof(int*) * 2)))
 		exit(0);

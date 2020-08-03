@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 20:43:24 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 21:12:07 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,38 +41,28 @@ int		burningship_iteration(float cx, float cy, int max_iter)
 
 void	burningship(t_args *args, int start, int stop)
 {
-	float	cx;
-	float	cy;
-	int		x;
-	int		y;
 	t_float_xy	pos;
+	float		cx;
+	float		cy;
+	int			x;
+	int			y;
 
-	//color 6 animoitu kaikkiin?
-	args->color = 2;
-	args->pos.x = -175;
-	args->pos.y = -3;
-	args->zoom = 0.0117;
-	args->pos2.x = -175;
-	args->pos2.y = -3;
-	args->zoom2 = 0.0117;
 	while (1)
 	{
 		usleep(100);
-		y = start;
+		y = start - 1;
 		pos.x = args->pos.x / (100 / args->zoom);
 		pos.y = args->pos.y / (100 / args->zoom);
-		while (y < stop)
-		{
-			x = 0;
-			while (x < WIDTH)
+		while ((x = -1) && ++y < stop)
+			while (++x < WIDTH)
 			{
-				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH) + pos.x / args->zoom;
-				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT) + pos.y / args->zoom;
-				args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] = burningship_iteration(cx, cy, args->max_iter);
-				x++;
+				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH)
+													+ pos.x / args->zoom;
+				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT)
+													+ pos.y / args->zoom;
+				args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
+								burningship_iteration(cx, cy, args->max_iter);
 			}
-			y++;
-		}
 		sync_threads(args);
 	}
 }
