@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 16:01:21 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 16:47:12 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	*split_screen(void *args)
 {
 	static int	start = 0;
 	static int	stop = 0;
+	struct sched_param params;
 
+	params.sched_priority = sched_get_priority_max(SCHED_FIFO);
+	pthread_setschedparam(pthread_self(), SCHED_FIFO, &params);
 	stop += 180;
 	if (((t_args*)args)->fractal_id == 1)
 	{
@@ -57,7 +60,7 @@ void	*split_screen(void *args)
 
 t_args	*init_fractal(int f)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 50, .sync_threads = 1, .which = 1, .threads_ready = 0, .color = 0};
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 40, .sync_threads = 1, .which = 0, .threads_ready = 0, .color = 0};
 	int			i;
 	pthread_t		tid[4];
 
@@ -76,7 +79,7 @@ t_args	*init_fractal(int f)
 	while (i < 4) //kuinka monta int, 5 paras?
 	{
 		pthread_create(&tid[i], NULL, split_screen, (void*)&args);
-		usleep(100);
+		usleep(10000);
 		i++;
 	}
 	return (&args);
@@ -92,7 +95,6 @@ void	print_fractal(t_args *args)
 	y = 0;
 	while (args->threads_ready < 4)
 		usleep(10);
-	args->threads_ready = 0;
 	int other = args->which;
 	args->which = args->which ? 0 : 1;
 
@@ -100,7 +102,7 @@ void	print_fractal(t_args *args)
 	args->pos = args->pos2;
 	args->max_iter = args->max_iter2;
 
-	usleep(100);
+	args->threads_ready = 0;
 	args->sync_threads = 0;
 	usleep(100);
 	args->sync_threads = 1;
@@ -143,6 +145,7 @@ void	fractal(void)
 	args->max_iter2 = is_key_down(126) ? args->max_iter2 + 1 : args->max_iter2;
 	args->max_iter2 = is_key_down(125) ? args->max_iter2 - 1 : args->max_iter2;
 	args->max_iter2 = args->max_iter < 0 ? 0 : args->max_iter2;
+	args->max_iter2 = args->max_iter > 50 ? 50 : args->max_iter2;
 	oldc.x = c.x;
 	oldc.y = c.y;
 	//rotate_vertices(0.1, args);
