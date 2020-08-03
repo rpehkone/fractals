@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 20:41:10 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 21:34:19 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct	s_args {
 	float		zoom2;
 	int			max_iter;
 	int			max_iter2;
-
 	int			fractal_id;
 	int			**dbuffer;
 	int			threads_ready;

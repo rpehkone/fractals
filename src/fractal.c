@@ -6,38 +6,17 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 21:10:29 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 21:39:51 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
-/*
-void	rotate_vertices(float angle, t_args *args)
-{
-	static t_int_xy asd = {.x = 10, .y = 10};
-	float	sin_angle;
-	float	cos_angle;
-	float	a;
-	float	b;
 
-	sin_angle = sin(angle);
-	cos_angle = cos(angle);
-
-	args->pos.y -= asd.y;
-	args->pos.x -= asd.x;
-	a = asd.x;
-	b = asd.y;
-	asd.y = (a * cos_angle - b * sin_angle);
-	asd.x = (b * cos_angle + a * sin_angle);
-	args->pos.y += asd.y;
-	args->pos.x += asd.x;
-}
-*/
 void	*split_screen(void *args)
 {
-	static int	start = 0;
-	static int	stop = 0;
-	struct sched_param params;
+	static int			start = 0;
+	static int			stop = 0;
+	struct sched_param	params;
 
 	params.sched_priority = sched_get_priority_max(SCHED_FIFO);
 	pthread_setschedparam(pthread_self(), SCHED_FIFO, &params);
@@ -52,32 +31,46 @@ void	*split_screen(void *args)
 	}
 	else if (((t_args*)args)->fractal_id == 3)
 	{
+		((t_args*)args)->color = 6;
+		((t_args*)args)->pos.x = -175;
+		((t_args*)args)->pos.y = -3;
+		((t_args*)args)->zoom = 0.0117;
+		((t_args*)args)->pos2.x = -175;
+		((t_args*)args)->pos2.y = -3;
+		((t_args*)args)->zoom2 = 0.0117;
 		burningship((t_args*)args, start, stop);
 	}
 	start += HEIGHT / THREAD_COUNT;
 	return (NULL);
 }
 
+void	init_args(t_args *args)
+{
+	args->pos.x = 0;
+	args->pos.y = 0;
+	args->pos2.x = 0;
+	args->pos2.y = 0;
+	args->zoom2 = .3;
+	args->max_iter2 = 50;
+	args->zoom = .3;
+	args->max_iter = 50;
+	args->sync_threads = 1;
+	args->buffer_id = 0;
+	args->threads_ready = 0;
+	args->color = 5;
+}
+
 t_args	*init_fractal(int f)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 40, .sync_threads = 1, .buffer_id = 0, .threads_ready = 0, .color = 5};
-	int			i;
+	int				i;
 	pthread_t		tid[THREAD_COUNT];
+	static t_args	args;
 
+	init_args(&args);
 	if (f)
 	{
 		args.fractal_id = f;
 		return (NULL);
-	}
-	if (args.fractal_id = 2)
-	{
-		args->color = 6;
-		args->pos.x = -175;
-		args->pos.y = -3;
-		args->zoom = 0.0117;
-		args->pos2.x = -175;
-		args->pos2.y = -3;
-		args->zoom2 = 0.0117;
 	}
 	if (!(args.dbuffer = (int**)malloc(sizeof(int*) * 2)))
 		exit(0);
@@ -157,6 +150,5 @@ void	fractal(void)
 	args->max_iter2 = args->max_iter2 > 50 ? 50 : args->max_iter2;
 	oldc.x = c.x;
 	oldc.y = c.y;
-	//rotate_vertices(0.1, args);
 	print_fractal(args);
 }
