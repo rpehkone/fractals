@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:34:06 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:50:06 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 20:43:00 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	mandelbrot(t_args *a, int start, int stop)
 											/ WIDTH + pos.x / a->zoom;
 				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * a->zoom)
 											/ HEIGHT) + pos.y / a->zoom;
-				a->iteration[a->which][x + ((start + y) * WIDTH)] =
+				a->dbuffer[a->buffer_id][x + ((start + y) * WIDTH)] =
 								mandelbrot_iteration(cx, cy, a->max_iter);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:40:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:42:25 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 20:43:13 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	julia(t_args *args, int start, int stop)
 			{
 				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
 				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
-				args->iteration[args->which][x + ((start + y) * WIDTH)] =
+				args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
 								julia_iteration(cx, cy, args->max_iter, pos);
 				x++;
 			}

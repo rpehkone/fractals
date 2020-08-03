@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:54:11 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 20:43:24 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	burningship(t_args *args, int start, int stop)
 			{
 				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH) + pos.x / args->zoom;
 				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT) + pos.y / args->zoom;
-				args->iteration[args->which][x + ((start + y) * WIDTH)] = burningship_iteration(cx, cy, args->max_iter);
+				args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] = burningship_iteration(cx, cy, args->max_iter);
 				x++;
 			}
 			y++;

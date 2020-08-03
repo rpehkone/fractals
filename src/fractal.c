@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 20:07:23 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 21:04:52 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*split_screen(void *args)
 
 t_args	*init_fractal(int f)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 40, .sync_threads = 1, .which = 0, .threads_ready = 0, .color = 5};
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 40, .sync_threads = 1, .buffer_id = 0, .threads_ready = 0, .color = 5};
 	int			i;
 	pthread_t		tid[THREAD_COUNT];
 
@@ -69,11 +69,11 @@ t_args	*init_fractal(int f)
 		args.fractal_id = f;
 		return (NULL);
 	}
-	if (!(args.iteration = (int**)malloc(sizeof(int*) * 2)))
+	if (!(args.dbuffer = (int**)malloc(sizeof(int*) * 2)))
 		exit(0);
-	if (!(args.iteration[0] = (int*)malloc(sizeof(int) * (WIDTH * HEIGHT))))
+	if (!(args.dbuffer[0] = (int*)malloc(sizeof(int) * (WIDTH * HEIGHT))))
 		exit(0);
-	if (!(args.iteration[1] = (int*)malloc(sizeof(int) * (WIDTH * HEIGHT))))
+	if (!(args.dbuffer[1] = (int*)malloc(sizeof(int) * (WIDTH * HEIGHT))))
 		exit(0);
 	i = 0;
 	while (i < THREAD_COUNT)
@@ -95,21 +95,19 @@ void	sync_threads(t_args *args)
 
 void	print_fractal(t_args *args)
 {
-	//eli kaikkia asetuksia pitaa doublebufferoid muuten kesken kaiken
+	int	old_max_iter;
+	int	not_active_id;
 	int	x;
 	int	y;
 
-	int old_max_iter = args->max_iter;
-	y = 0;
+	old_max_iter = args->max_iter;
 	while (args->threads_ready < THREAD_COUNT)
 		usleep(10);
-	int other = args->which;
-	args->which = args->which ? 0 : 1;
-
+	not_active_id = args->buffer_id;
+	args->buffer_id = args->buffer_id ? 0 : 1;
 	args->zoom = args->zoom2;
 	args->pos = args->pos2;
 	args->max_iter = args->max_iter2;
-
 	args->threads_ready = 0;
 	args->sync_threads = 0;
 	while (args->out_sync < THREAD_COUNT)
@@ -117,24 +115,17 @@ void	print_fractal(t_args *args)
 	args->out_sync = 0;
 	args->sync_threads = 1;
 	color_settings(args);
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			pixel_put(x, y, select_color(args->color, old_max_iter, other, args->iteration[other][y * WIDTH + x]));
-			x++;
-		}
-		y++;
-	}
+	y = 0;
+	while ((x = -1) && ++y < HEIGHT)
+		while (++x < WIDTH)
+			pixel_put(x, y, select_color(args->color, old_max_iter,
+			not_active_id, args->dbuffer[not_active_id][y * WIDTH + x]));
 }
 
 void	fractal(void)
 {
-//jos on huono fps laskee resoluutiota
-//tai tee feikki resoluutio isompi ikkuna
 	static t_args	*args = NULL;
-	static t_int_xy		oldc;
+	static t_int_xy	oldc;
 	t_int_xy		c;
 
 	if (is_key_down(53))
@@ -148,14 +139,8 @@ void	fractal(void)
 		args->pos2.x -= ((float)c.x - oldc.x);
 		args->pos2.y -= ((float)c.y - oldc.y);
 	}
-	if (is_mouse_down(2))
-		args->zoom2 *= 1.1;
-	if (is_mouse_down(1))
-		args->zoom2 *= (1.0 / 1.1);
-	if (is_mouse_down(4))
-		args->zoom2 *= 1.1;
-	if (is_mouse_down(5))
-		args->zoom2 *= (1.0 / 1.1);
+	args->zoom2 = is_mouse_down(1) ? args->zoom2 * (1.0 / 1.1) : args->zoom2;
+	args->zoom2 = is_mouse_down(2) ? args->zoom2 * 1.1 : args->zoom2;
 	args->max_iter2 = is_key_down(126) ? args->max_iter2 + 1 : args->max_iter2;
 	args->max_iter2 = is_key_down(125) ? args->max_iter2 - 1 : args->max_iter2;
 	args->max_iter2 = args->max_iter2 < 0 ? 0 : args->max_iter2;
