@@ -6,12 +6,33 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 18:31:45 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 14:35:48 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
+/*
+void	rotate_vertices(float angle, t_args *args)
+{
+	static t_int_xy asd = {.x = 10, .y = 10};
+	float	sin_angle;
+	float	cos_angle;
+	float	a;
+	float	b;
 
+	sin_angle = sin(angle);
+	cos_angle = cos(angle);
+
+	args->pos.y -= asd.y;
+	args->pos.x -= asd.x;
+	a = asd.x;
+	b = asd.y;
+	asd.y = (a * cos_angle - b * sin_angle);
+	asd.x = (b * cos_angle + a * sin_angle);
+	args->pos.y += asd.y;
+	args->pos.x += asd.x;
+}
+*/
 void	*split_screen(void *args)
 {
 	static int	start = 0;
@@ -93,6 +114,7 @@ void	print_fractal(t_args *args)
 void	fractal(void)
 {
 //jos on huono fps laskee resoluutiota
+//tai tee feikki resoluutio isompi ikkuna
 	static t_args	*args = NULL;
 	static t_int_xy		oldc;
 	t_int_xy		c;
@@ -117,5 +139,6 @@ void	fractal(void)
 	args->max_iter = args->max_iter < 0 ? 0 : args->max_iter;
 	oldc.x = c.x;
 	oldc.y = c.y;
+	//rotate_vertices(0.1, args);
 	print_fractal(args);
 }

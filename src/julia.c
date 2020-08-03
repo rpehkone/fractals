@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 13:25:32 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 14:49:01 by rpehkone         ###   ########.fr       */
 /* ************************************************************************** */
 
 #include "fractal.h"

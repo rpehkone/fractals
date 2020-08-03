@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/01 14:50:23 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 14:57:47 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FRACTAL_H
 # include "mlx_io.h"
 # include <pthread.h>
+# include <math.h>
 
 #include <stdio.h>
 //poista taa struct?
@@ -26,6 +27,7 @@ typedef struct	s_args {
 	t_float_xy	pos;
 	float		zoom;
 	int			max_iter;
+
 	int			fractal_id;
 	int			**iteration;
 	int			threads_ready;
