@@ -116,9 +116,12 @@ int		select_color(int color, int max, int other, int iteration)
 	else if (color == 2)//muuta taa musta valko musta // tai musta vaaleanpunanen musta
 	{
 		float fade_inv = 1 - fade;
+		fade_inv *= 2;
+
+		float test = fade;
+		test *= 2;
 		return (iteration < (max / 2) ? ((int)(0xFF * fade_inv) * 0x10000) + ((int)(0xFF * fade_inv) * 0x100) + (int)(0xFF * fade_inv) :
-				0);
-		//		 0xFF0000 + (int)(0xFF * (fade / 2)) * 0x100);
+			((int)(0xFF * test) * 0x10000) + ((int)(0xFF * test) * 0x100) + (int)(0xFF * test));
 	}
 	else if (color == 3 && iteration == max)
 		return (0xFFFFFF);
@@ -137,7 +140,6 @@ void		color_settings(t_args *args)
 {
 	static int last_down = 0;
 
-	//at start rng vari
 	if (!last_down)
 	{
 		args->color = is_key_down(124) ? args->color + 1 : args->color;
