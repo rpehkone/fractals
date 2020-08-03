@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 14:57:47 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 15:16:05 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ typedef struct	s_float_xy {
 
 typedef struct	s_args {
 	t_float_xy	pos;
+	t_float_xy	pos2;
 	float		zoom;
+	float		zoom2;
 	int			max_iter;
+	int			max_iter2;
 
 	int			fractal_id;
 	int			**iteration;

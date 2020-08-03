@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 14:35:48 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 16:01:21 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	*split_screen(void *args)
 
 t_args	*init_fractal(int f)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .zoom = .3, .max_iter = 50, .sync_threads = 1, .which = 1, .threads_ready = 0, .color = 0};
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 50, .sync_threads = 1, .which = 1, .threads_ready = 0, .color = 0};
 	int			i;
 	pthread_t		tid[4];
 
@@ -88,15 +88,21 @@ void	print_fractal(t_args *args)
 	int	x;
 	int	y;
 
+	int old_max_iter = args->max_iter;
 	y = 0;
 	while (args->threads_ready < 4)
 		usleep(10);
-	usleep(100);
 	args->threads_ready = 0;
 	int other = args->which;
 	args->which = args->which ? 0 : 1;
+
+	args->zoom = args->zoom2;
+	args->pos = args->pos2;
+	args->max_iter = args->max_iter2;
+
+	usleep(100);
 	args->sync_threads = 0;
-	usleep(1000);
+	usleep(100);
 	args->sync_threads = 1;
 	color_settings(args);
 	while (y < 720)
@@ -104,7 +110,7 @@ void	print_fractal(t_args *args)
 		x = 0;
 		while (x < 1280)
 		{
-			pixel_put(x, y, select_color(args->color, args->max_iter, other, args->iteration[other][y * 1280 + x]));
+			pixel_put(x, y, select_color(args->color, old_max_iter, other, args->iteration[other][y * 1280 + x]));
 			x++;
 		}
 		y++;
@@ -127,16 +133,16 @@ void	fractal(void)
 	c = get_cursor();
 	if (is_mouse_down(1) || args->fractal_id == 2)
 	{
-		args->pos.x -= ((float)c.x - oldc.x);
-		args->pos.y -= ((float)c.y - oldc.y);
+		args->pos2.x -= ((float)c.x - oldc.x);
+		args->pos2.y -= ((float)c.y - oldc.y);
 	}
 	if (is_mouse_down(4))
-		args->zoom *= 1.1;
+		args->zoom2 *= 1.1;
 	if (is_mouse_down(5))
-		args->zoom *= (1.0 / 1.1);
-	args->max_iter = is_key_down(126) ? args->max_iter + 1 : args->max_iter;
-	args->max_iter = is_key_down(125) ? args->max_iter - 1 : args->max_iter;
-	args->max_iter = args->max_iter < 0 ? 0 : args->max_iter;
+		args->zoom2 *= (1.0 / 1.1);
+	args->max_iter2 = is_key_down(126) ? args->max_iter2 + 1 : args->max_iter2;
+	args->max_iter2 = is_key_down(125) ? args->max_iter2 - 1 : args->max_iter2;
+	args->max_iter2 = args->max_iter < 0 ? 0 : args->max_iter2;
 	oldc.x = c.x;
 	oldc.y = c.y;
 	//rotate_vertices(0.1, args);
