@@ -1,12 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractal.c                                          :+:      :+:    :+:   */
+/*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:35:15 by rpehkone         ###   ########.fr       */
+/*   Created: 2020/08/03 18:40:28 by rpehkone          #+#    #+#             */
+/*   Updated: 2020/08/03 18:42:25 by rpehkone         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
@@ -34,28 +35,28 @@ int		julia_iteration(float cx, float cy, int max_iter, t_float_xy pos)
 	}
 	return (iteration);
 }
-//add auto rotate
+
 void	julia(t_args *args, int start, int stop)
 {
-	float	cx;
-	float	cy;
-	int		x;
-	int		y;
 	t_float_xy	pos;
+	float		cx;
+	float		cy;
+	int			x;
+	int			y;
 
 	while (1)
 	{
 		y = start;
 		pos.x = args->pos.x + WIDTH;
 		pos.y = args->pos.y + HEIGHT;
-		while (y < stop)
+		while (!(x = 0) && y < stop)
 		{
-			x = 0;
 			while (x < WIDTH)
 			{
 				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
 				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
-				args->iteration[args->which][x + ((start + y) * WIDTH)] = julia_iteration(cx, cy, args->max_iter, pos);
+				args->iteration[args->which][x + ((start + y) * WIDTH)] =
+								julia_iteration(cx, cy, args->max_iter, pos);
 				x++;
 			}
 			y++;

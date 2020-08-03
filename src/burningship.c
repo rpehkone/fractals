@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:34:18 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:54:11 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 float	ft_abs(float n)
 {
-	if (n < 0)
-		return (n * -1);
-	return (n);
+	return (n < 0 ? n * -1 : n);
 }
 
 int		burningship_iteration(float cx, float cy, int max_iter)

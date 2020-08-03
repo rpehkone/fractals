@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:34:50 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:39:28 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 # include "mlx_io.h"
 # include <pthread.h>
 # include <math.h>
-//fullhds 1920 1080 > 960 540
 # define WIDTH 960
 # define HEIGHT 550
 # define ASPECT_WIDTH 16.0
 # define ASPECT_HEIGHT 9.0
 
 #include <stdio.h>
-//poista taa struct?
+
 typedef struct	s_float_xy {
 	float		x;
 	float		y;
@@ -48,8 +47,8 @@ typedef struct	s_args {
 void			mandelbrot(t_args *args, int start, int stop);
 void			julia(t_args *args, int start, int stop);
 void			burningship(t_args *args, int start, int stop);
-t_args				*init_fractal(int i);
+t_args			*init_fractal(int i);
 void			color_settings(t_args *args);
-int			select_color(int color, int max, int other, int iteration);
-void		sync_threads(t_args *args);
+int				select_color(int color, int max, int other, int iteration);
+void			sync_threads(t_args *args);
 #endif

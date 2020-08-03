@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:34:06 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:34:06 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:50:06 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,31 @@ int		mandelbrot_iteration(float cx, float cy, int max_iter)
 	return (iteration);
 }
 
-void	mandelbrot(t_args *args, int start, int stop)
+void	mandelbrot(t_args *a, int start, int stop)
 {
-	float	cx;
-	float	cy;
-	int		x;
-	int		y;
-	t_float_xy pos;
+	t_float_xy	pos;
+	float		cx;
+	float		cy;
+	int			x;
+	int			y;
 
 	while (1)
 	{
-		y = start;
-		pos.x = args->pos.x / (100 / args->zoom);
-		pos.y = args->pos.y / (100 / args->zoom);
-		while (y < stop)
+		y = start - 1;
+		pos.x = a->pos.x / (100 / a->zoom);
+		pos.y = a->pos.y / (100 / a->zoom);
+		while ((x = -1) && ++y < stop)
 		{
-			x = 0;
-			while (x < WIDTH)
+			while (++x < WIDTH)
 			{
-				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH) + pos.x / args->zoom;
-				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT) + pos.y / args->zoom;
-				args->iteration[args->which][x + ((start + y) * WIDTH)] =  mandelbrot_iteration(cx, cy, args->max_iter);
-				x++;
+				cx = (x - WIDTH / 2) * (ASPECT_WIDTH * a->zoom)
+											/ WIDTH + pos.x / a->zoom;
+				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * a->zoom)
+											/ HEIGHT) + pos.y / a->zoom;
+				a->iteration[a->which][x + ((start + y) * WIDTH)] =
+								mandelbrot_iteration(cx, cy, a->max_iter);
 			}
-			y++;
 		}
-		sync_threads(args);
+		sync_threads(a);
 	}
 }
