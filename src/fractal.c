@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 18:57:54 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 20:07:23 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*split_screen(void *args)
 
 t_args	*init_fractal(int f)
 {
-	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 40, .sync_threads = 1, .which = 0, .threads_ready = 0, .color = 0};
+	static t_args	args = {.pos.x = 0, .pos.y = 0, .pos2.x = 0, .pos2.y = 0, .zoom2 = .3, .max_iter2 = 50, .zoom = .3, .max_iter = 40, .sync_threads = 1, .which = 0, .threads_ready = 0, .color = 5};
 	int			i;
 	pthread_t		tid[THREAD_COUNT];
 
@@ -143,11 +143,15 @@ void	fractal(void)
 		args = init_fractal(0);
 	update_image();
 	c = get_cursor();
-	if (is_mouse_down(1) || args->fractal_id == 2)
+	if (is_mouse_down(3) || args->fractal_id == 2)
 	{
 		args->pos2.x -= ((float)c.x - oldc.x);
 		args->pos2.y -= ((float)c.y - oldc.y);
 	}
+	if (is_mouse_down(2))
+		args->zoom2 *= 1.1;
+	if (is_mouse_down(1))
+		args->zoom2 *= (1.0 / 1.1);
 	if (is_mouse_down(4))
 		args->zoom2 *= 1.1;
 	if (is_mouse_down(5))
