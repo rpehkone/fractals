@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 16:47:12 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:36:06 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*split_screen(void *args)
 
 	params.sched_priority = sched_get_priority_max(SCHED_FIFO);
 	pthread_setschedparam(pthread_self(), SCHED_FIFO, &params);
-	stop += 180;
+	stop += HEIGHT / 4;
 	if (((t_args*)args)->fractal_id == 1)
 	{
 		mandelbrot((t_args*)args, start, stop);
@@ -54,7 +54,7 @@ void	*split_screen(void *args)
 	{
 		burningship((t_args*)args, start, stop);
 	}
-	start += 180;
+	start += HEIGHT / 4;
 	return (NULL);
 }
 
@@ -71,9 +71,9 @@ t_args	*init_fractal(int f)
 	}
 	if (!(args.iteration = (int**)malloc(sizeof(int*) * 2)))
 		exit(0);
-	if (!(args.iteration[0] = (int*)malloc(sizeof(int) * (1280 * 720))))
+	if (!(args.iteration[0] = (int*)malloc(sizeof(int) * (WIDTH * HEIGHT))))
 		exit(0);
-	if (!(args.iteration[1] = (int*)malloc(sizeof(int) * (1280 * 720))))
+	if (!(args.iteration[1] = (int*)malloc(sizeof(int) * (WIDTH * HEIGHT))))
 		exit(0);
 	i = 0;
 	while (i < 4) //kuinka monta int, 5 paras?
@@ -83,6 +83,14 @@ t_args	*init_fractal(int f)
 		i++;
 	}
 	return (&args);
+}
+
+void	sync_threads(t_args *args)
+{
+	args->threads_ready++;
+	while (args->sync_threads)
+		usleep(10);
+	args->out_sync++;
 }
 
 void	print_fractal(t_args *args)
@@ -104,15 +112,17 @@ void	print_fractal(t_args *args)
 
 	args->threads_ready = 0;
 	args->sync_threads = 0;
-	usleep(100);
+	while (args->out_sync < 4)
+		usleep(10);
+	args->out_sync = 0;
 	args->sync_threads = 1;
 	color_settings(args);
-	while (y < 720)
+	while (y < HEIGHT)
 	{
 		x = 0;
-		while (x < 1280)
+		while (x < WIDTH)
 		{
-			pixel_put(x, y, select_color(args->color, old_max_iter, other, args->iteration[other][y * 1280 + x]));
+			pixel_put(x, y, select_color(args->color, old_max_iter, other, args->iteration[other][y * WIDTH + x]));
 			x++;
 		}
 		y++;
@@ -144,8 +154,8 @@ void	fractal(void)
 		args->zoom2 *= (1.0 / 1.1);
 	args->max_iter2 = is_key_down(126) ? args->max_iter2 + 1 : args->max_iter2;
 	args->max_iter2 = is_key_down(125) ? args->max_iter2 - 1 : args->max_iter2;
-	args->max_iter2 = args->max_iter < 0 ? 0 : args->max_iter2;
-	args->max_iter2 = args->max_iter > 50 ? 50 : args->max_iter2;
+	args->max_iter2 = args->max_iter2 < 0 ? 0 : args->max_iter2;
+	args->max_iter2 = args->max_iter2 > 50 ? 50 : args->max_iter2;
 	oldc.x = c.x;
 	oldc.y = c.y;
 	//rotate_vertices(0.1, args);

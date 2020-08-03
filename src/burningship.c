@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 14:48:47 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:34:18 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	burningship(t_args *args, int start, int stop)
 	args->pos.x = -175;
 	args->pos.y = -3;
 	args->zoom = 0.0117;
+	args->pos2.x = -175;
+	args->pos2.y = -3;
+	args->zoom2 = 0.0117;
 	while (1)
 	{
 		usleep(100);
@@ -63,17 +66,15 @@ void	burningship(t_args *args, int start, int stop)
 		while (y < stop)
 		{
 			x = 0;
-			while (x < 1280)
+			while (x < WIDTH)
 			{
-				cx = (x - 640) * ((16.0 * args->zoom) / 1280) + pos.x / args->zoom;
-				cy = (y - 360) * ((9.0 * args->zoom) / 720) + pos.y / args->zoom;
-				args->iteration[args->which][x + ((start + y) * 1280)] = burningship_iteration(cx, cy, args->max_iter);
+				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH) + pos.x / args->zoom;
+				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT) + pos.y / args->zoom;
+				args->iteration[args->which][x + ((start + y) * WIDTH)] = burningship_iteration(cx, cy, args->max_iter);
 				x++;
 			}
 			y++;
 		}
-		args->threads_ready++;
-		while (args->sync_threads)
-			usleep(10);
+		sync_threads(args);
 	}
 }

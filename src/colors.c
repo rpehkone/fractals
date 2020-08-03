@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 14:16:09 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 17:06:49 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,13 @@ int		select_color(int color, int max, int other, int iteration)
 	else if (color == 1)
 		return (iteration == max ? 0xFFFFFF :
 		((int)(0xFF * fade) * 0x10000) + ((int)(0xFF * fade) * 0x100) + 0xFF);
-	else if (color == 2 && iteration == max)
-		return (0xFFFFFF);
 	else if (color == 2)//muuta taa musta valko musta // tai musta vaaleanpunanen musta
-		return (iteration < (max / 2) ? ((0xFF - (int)(0xFF * (fade / 1.25))) * 0x10000) :
-				 0xFF0000 + (int)(0xFF * (fade / 2)) * 0x100);
+	{
+		float fade_inv = 1 - fade;
+		return (iteration < (max / 2) ? ((int)(0xFF * fade_inv) * 0x10000) + ((int)(0xFF * fade_inv) * 0x100) + (int)(0xFF * fade_inv) :
+				0);
+		//		 0xFF0000 + (int)(0xFF * (fade / 2)) * 0x100);
+	}
 	else if (color == 3 && iteration == max)
 		return (0xFFFFFF);
 	else if (color == 3)

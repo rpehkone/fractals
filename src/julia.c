@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 14:49:01 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:35:15 by rpehkone         ###   ########.fr       */
 /* ************************************************************************** */
 
 #include "fractal.h"
@@ -23,8 +23,8 @@ int		julia_iteration(float cx, float cy, int max_iter, t_float_xy pos)
 	iteration = 0;
 	zx = cx;
 	zy = cy;
-	cx = (3.0 / 1280) * (pos.x - 1280 / 2);
-	cy = (2.0 / 720) * (pos.y - 720 / 2);
+	cx = (3.0 / WIDTH) * (pos.x - WIDTH / 2);
+	cy = (2.0 / HEIGHT) * (pos.y - HEIGHT / 2);
 	while ((zx * zx + zy * zy < 4) && (iteration < max_iter))
 	{
 		tempx = zx * zx - zy * zy + cx;
@@ -46,22 +46,20 @@ void	julia(t_args *args, int start, int stop)
 	while (1)
 	{
 		y = start;
-		pos.x = args->pos.x + 1280;
-		pos.y = args->pos.y + 720;
+		pos.x = args->pos.x + WIDTH;
+		pos.y = args->pos.y + HEIGHT;
 		while (y < stop)
 		{
 			x = 0;
-			while (x < 1280)
+			while (x < WIDTH)
 			{
-				cx = (x - 640) * ((16.0 * args->zoom) / 1280);
-				cy = (y - 360) * ((9.0 * args->zoom) / 720);
-				args->iteration[args->which][x + ((start + y) * 1280)] = julia_iteration(cx, cy, args->max_iter, pos);
+				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
+				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
+				args->iteration[args->which][x + ((start + y) * WIDTH)] = julia_iteration(cx, cy, args->max_iter, pos);
 				x++;
 			}
 			y++;
 		}
-		args->threads_ready++;
-		while (args->sync_threads)
-			usleep(10);
+		sync_threads(args);
 	}
 }
