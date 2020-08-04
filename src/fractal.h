@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 15:56:12 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 17:17:03 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 # include "mlx_io.h"
 # include <pthread.h>
 # include <math.h>
-# define THREAD_COUNT 1
+# define THREAD_COUNT 5
 # define WIDTH 960
 # define HEIGHT 550
 # define ASPECT_WIDTH 16.0
 # define ASPECT_HEIGHT 9.0
-
-#include <stdio.h>
 
 typedef struct	s_float_xy {
 	float		x;
