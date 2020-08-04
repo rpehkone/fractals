@@ -6,23 +6,21 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 19:52:29 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 20:23:40 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
-///
-#include <stdio.h>
 
-int		get_color_6(float fade, int max, int other, int iteration)
+int		get_color_6(int max, int frame_id, int iter)
 {
 	static int		other2 = 0;
 	static int		wait_i = 1;
 	static int		wait_time = 0;
 	static float	fire_amount = 0;
 
-	if (other2 != other && (wait_i++ + 1))
-		other2 = other;
+	if (other2 != frame_id && (wait_i++ + 1))
+		other2 = frame_id;
 	if (wait_i > wait_time)
 	{
 		wait_time = rand() % 10;
@@ -31,42 +29,33 @@ int		get_color_6(float fade, int max, int other, int iteration)
 		fire_amount = wait_i < 3 ? fire_amount + 1.5 : fire_amount;
 		wait_i = 0;
 	}
-	if (iteration == max)
+	if (iter == max)
 		return (0xFFFFFF);
-	else if (iteration < max / fire_amount)
+	else if (iter < max / fire_amount)
 	{
 		max /= fire_amount;
-		float asd = (float)(max - iteration) / max;
-		//printf("fade = %f\n", fade);
-		//printf("fade * 0.8 = %f\n", fade * 0.8);
-		//printf("asd = %f\n", asd);
-		int a = 0xFF - 0xFF * asd;
-		return (a * 0x10000);
+		return ((int)(0xFF - 0xFF * ((float)(max - iter) / max)) * 0x10000);
 	}
-	(void)fade;
-	iteration /= fire_amount;
+	iter /= fire_amount;
 	max /= fire_amount;
-	float asd = (float)iteration / max;
-	return ((0xFF0000) + ((int)(0xFF * asd) * 0x100) + 0);
+	return ((0xFF0000) + ((int)(0xFF * ((float)iter / max)) * 0x100));
 }
 
-int		get_color_5(float fade, int other, int i)
+int		get_color_5(int x, int frame_id, int i)
 {
-	static int other2 = 0;
-	static int asd = 0;
-	double	red;
-	double	grn;
-	double	blu;
+	static int	other2 = 0;
+	static int	asd = 0;
+	double		red;
+	double		grn;
+	double		blu;
 
-	if (other2 != other)
+	if (other2 != frame_id)
 	{
-		other2 = other;
+		other2 = frame_id;
 		asd += 5;
 	}
 	if (asd > 310)
 		asd = 0;
-
-	int x = 310 * fade;
 	x += asd;
 	if (x > 310)
 		x -= 310;
@@ -79,7 +68,7 @@ int		get_color_5(float fade, int other, int i)
 	return ((int)red * 65536 + (int)grn * 256 + (int)blu);
 }
 
-int		select_color(int color, int max, int other, int iter)
+int		select_color(int color, int max, int frame_id, int iter)
 {
 	int fade;
 
@@ -104,8 +93,8 @@ int		select_color(int color, int max, int other, int iter)
 	else if (color == 4)
 		return (iter == max ? 0xFF0000 : -216380416);
 	else if (color == 5)
-		return (get_color_5(((float)(max - iter) / max), other, 0));
-	return (get_color_6(fade, max, other, iter));
+		return (get_color_5(310 * ((float)(max - iter) / max), frame_id, 0));
+	return (get_color_6(max, frame_id, iter));
 }
 
 void	color_settings(t_args *args)
