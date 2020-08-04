@@ -6,32 +6,30 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 16:26:14 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 18:20:37 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
+///
+#include <stdio.h>
 
-int		get_color_6(int max, int other, int iteration)
+int		get_color_6(float fade, int max, int other, int iteration)
 {
-	static int other2 = 0;
-	static int wait_i = 1;
-	static int wait_time = 0;
-	static float fire_amount = 0;
+	static int		other2 = 0;
+	static int		wait_i = 1;
+	static int		wait_time = 0;
+	static float	fire_amount = 0;
 
-	if (other2 != other)
-	{
+	if (other2 != other && (wait_i++ + 1))
 		other2 = other;
-		wait_i++;
-	}
 	if (wait_i > wait_time)
 	{
-		wait_i = 0;
 		wait_time = rand() % 10;
 		fire_amount = (float)(rand() % 100) / 100 + 1;
-		int j = rand() % 3;
-		if (j < 3)
-			fire_amount += 1.5;
+		wait_i = rand() % 3;
+		fire_amount = wait_i < 3 ? fire_amount + 1.5 : fire_amount;
+		wait_i = 0;
 	}
 	if (iteration == max)
 		return (0xFFFFFF);
@@ -39,14 +37,17 @@ int		get_color_6(int max, int other, int iteration)
 	{
 		max /= fire_amount;
 		float asd = (float)(max - iteration) / max;
+		//printf("fade = %f\n", fade);
+		//printf("fade * 0.8 = %f\n", fade * 0.8);
+		//printf("asd = %f\n", asd);
 		int a = 0xFF - 0xFF * asd;
-		return ((a * 0x10000));
+		return (a * 0x10000);
 	}
+	(void)fade;
 	iteration /= fire_amount;
 	max /= fire_amount;
 	float asd = (float)iteration / max;
-	int a = 0xFF * asd;
-	return ((0xFF0000) + (a * 0x100) + 0);
+	return ((0xFF0000) + ((int)(0xFF * asd) * 0x100) + 0);
 }
 
 int		get_color_5(float fade, int other, int i)
@@ -105,10 +106,10 @@ int		select_color(int color, int max, int other, int iteration)
 		return  (iteration == max ? 0xFF0000 : -216380416);
 	else if (color == 5)
 		return(get_color_5(fade, other, 0));
-	return(get_color_6(max, other, iteration));
+	return(get_color_6(fade, max, other, iteration));
 }
 
-void		color_settings(t_args *args)
+void	color_settings(t_args *args)
 {
 	static int last_down = 0;
 

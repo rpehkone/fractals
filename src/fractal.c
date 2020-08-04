@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 17:54:58 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 19:07:58 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,36 @@ void	print_fractal(t_args *args)
 		while (++x < WIDTH)
 			pixel_put(x, y, select_color(args->color, old_max_iter,
 			not_active_id, args->dbuffer[not_active_id][y * WIDTH + x]));
+	//siirtaa putpixelin tahan
+}
+
+void	handle_zoom(t_args *args, t_int_xy c, t_int_xy oldc)
+{
+	if (is_mouse_down(3))
+		args->pos2.x -= ((float)c.x - oldc.x) * args->zoom2;
+	if (is_mouse_down(3))
+		args->pos2.y -= ((float)c.y - oldc.y) * args->zoom2;
+	if (is_mouse_down(1) && args->fractal_id != 2)
+	{
+		args->zoom2 = args->zoom2 * (1.0 / 1.1);
+		if (args->zoom2 < 0.0000001)
+			args->zoom2 = 0.0000001;
+		else
+		{
+			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
+			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+		}
+	}
+	if (is_mouse_down(2) && args->fractal_id != 2)
+	{
+		args->zoom2 = args->zoom2 * 1.1;
+		if (args->zoom2 > 1)
+			args->zoom2 = 1;
+		if (args->zoom2 < 1)
+			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
+		if (args->zoom2 < 1)
+			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+	}
 }
 
 void	fractal(void)
@@ -66,33 +96,7 @@ void	fractal(void)
 		args->pos2.x -= ((float)c.x - oldc.x);
 		args->pos2.y -= ((float)c.y - oldc.y);
 	}
-	else if (is_mouse_down(3))
-	{
-		args->pos2.x -= ((float)c.x - oldc.x) * args->zoom2;
-		args->pos2.y -= ((float)c.y - oldc.y) * args->zoom2;
-	}
-	if (is_mouse_down(1) && args->fractal_id != 2)
-	{
-		args->zoom2 = args->zoom2 * (1.0 / 1.1);
-		if (args->zoom2 < 0.0000001)
-			args->zoom2 = 0.0000001;
-		else
-		{
-			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
-			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
-		}
-	}
-	if (is_mouse_down(2) && args->fractal_id != 2)
-	{
-		args->zoom2 = args->zoom2 * 1.1;
-		if (args->zoom2 > 1)
-			args->zoom2 = 1;
-		else
-		{
-			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
-			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
-		}
-	}
+	handle_zoom(args, c, oldc);
 	args->max_iter2 = is_key_down(126) ? args->max_iter2 + 1 : args->max_iter2;
 	args->max_iter2 = is_key_down(125) ? args->max_iter2 - 1 : args->max_iter2;
 	args->max_iter2 = args->max_iter2 < 0 ? 0 : args->max_iter2;
