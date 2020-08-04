@@ -12,28 +12,6 @@
 
 #include "fractal.h"
 
-int		get_color_7(float fade)
-{
-	double	red;
-	double	grn;
-	double	blu;
-	int		i;
-
-	int x = 190 * fade;
-	x += 40;
-	i = 0;
-	while (i < 310)
-	{
-		red = sin(0.02 * i + 0) * 127 + 128;
-		grn = sin(0.02 * i + 2) * 127 + 128;
-		blu = sin(0.02 * i + 4) * 127 + 128;
-		if (i == x)
-			return ((int)red * 65536 + (int)grn * 256 + (int)blu);
-		i++;
-	}
-	return (0);
-}
-
 int		get_color_6(float fade, int max, int other, int iteration)
 {
 	/*
@@ -74,6 +52,9 @@ int		get_color_5(float fade, int other)
 {
 	static int other2 = 0;
 	static int asd = 0;
+	double	red;
+	int		i;
+	int x = 310 * fade;
 
 	if (other2 != other)
 	{
@@ -82,26 +63,15 @@ int		get_color_5(float fade, int other)
 	}
 	if (asd > 310)
 		asd = 0;
-	double	red;
-	double	grn;
-	double	blu;
-	int		i;
 
-	int x = 310 * fade;
 	x += asd;
 	if (x > 310)
 		x -= 310;
 	i = 0;
-	while (i < 310)
-	{
-		red = sin(0.02 * i + 0) * 127 + 128;
-		grn = sin(0.02 * i + 2) * 127 + 128;
-		blu = sin(0.02 * i + 4) * 127 + 128;
-		if (i == x)
-			return ((int)red * 65536 + (int)grn * 256 + (int)blu);
+	while (i < 310 && i != x)
 		i++;
-	}
-	return ((int)red * 65536 + (int)grn * 256 + (int)blu);
+	red = sin(0.02 * i + 0);
+	return ((int)(red * 127 + 128) * 65536 + (int)((red + 2) * 127 + 128) * 256 + (int)((red + 4) * 127 + 128));
 }
 
 int		select_color(int color, int max, int other, int iteration)
@@ -113,7 +83,7 @@ int		select_color(int color, int max, int other, int iteration)
 	else if (color == 1)
 		return (iteration == max ? 0xFFFFFF :
 		((int)(0xFF * fade) * 0x10000) + ((int)(0xFF * fade) * 0x100) + 0xFF);
-	else if (color == 2)//muuta taa musta valko musta // tai musta vaaleanpunanen musta
+	else if (color == 2)
 	{
 		float fade_inv = 1 - fade;
 		fade_inv *= 2;
@@ -131,9 +101,7 @@ int		select_color(int color, int max, int other, int iteration)
 		return  (iteration == max ? 0xFF0000 : -216380416);
 	else if (color == 5)
 		return(get_color_5(fade, other));
-	else if (color == 6)
-		return(get_color_6(fade, max, other, iteration));
-	return(get_color_7(fade));
+	return(get_color_6(fade, max, other, iteration));
 }
 
 void		color_settings(t_args *args)
@@ -146,8 +114,8 @@ void		color_settings(t_args *args)
 		args->color = is_key_down(123) ? args->color - 1 : args->color;
 	}
 	if (args->color < 0)
-		args->color = 7;
-	else if (args->color > 7)
+		args->color = 6;
+	else if (args->color > 6)
 		args->color = 0;
 	last_down = is_key_down(124) || is_key_down(123) ? 1 : 0;
 }

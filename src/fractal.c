@@ -16,7 +16,7 @@ void	sync_threads(t_args *args)
 {
 	args->threads_ready++;
 	while (args->sync_threads)
-		usleep(10);
+		usleep(1);
 	args->out_sync++;
 }
 
@@ -29,7 +29,7 @@ void	print_fractal(t_args *args)
 
 	old_max_iter = args->max_iter;
 	while (args->threads_ready < THREAD_COUNT)
-		usleep(10);
+		usleep(1);
 	not_active_id = args->buffer_id;
 	args->buffer_id = args->buffer_id ? 0 : 1;
 	args->zoom = args->zoom2;
@@ -39,8 +39,8 @@ void	print_fractal(t_args *args)
 	args->sync_threads = 0;
 	while (args->out_sync < THREAD_COUNT)
 		usleep(10);
-	args->out_sync = 0;
 	args->sync_threads = 1;
+	args->out_sync = 0;
 	color_settings(args);
 	y = 0;
 	while ((x = -1) && ++y < HEIGHT)
