@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 19:07:58 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 19:34:16 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	handle_zoom(t_args *args, t_int_xy c, t_int_xy oldc)
 	if (is_mouse_down(1) && args->fractal_id != 2)
 	{
 		args->zoom2 = args->zoom2 * (1.0 / 1.1);
-		if (args->zoom2 < 0.0000001)
-			args->zoom2 = 0.0000001;
+		if (args->zoom2 < 0.0000002)
+			args->zoom2 = 0.0000002;
 		else
 		{
 			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);

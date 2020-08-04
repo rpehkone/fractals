@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 18:20:37 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 19:52:29 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,34 +79,33 @@ int		get_color_5(float fade, int other, int i)
 	return ((int)red * 65536 + (int)grn * 256 + (int)blu);
 }
 
-int		select_color(int color, int max, int other, int iteration)
+int		select_color(int color, int max, int other, int iter)
 {
-	float fade = ((float)(max - iteration) / max);
+	int fade;
 
+	fade = 0xFF * ((float)(max - iter) / max);
 	if (color == 0)
-		return (iteration < max ? 0xFFFFFF : 0);
+		return (iter < max ? 0xFFFFFF : 0);
 	else if (color == 1)
-		return (iteration == max ? 0xFFFFFF :
-		((int)(0xFF * fade) * 0x10000) + ((int)(0xFF * fade) * 0x100) + 0xFF);
+		return (iter == max ? 0xFFFFFF : fade * 0x10000 + fade * 0x100 + 0xFF);
 	else if (color == 2)
 	{
-		float fade_inv = 1 - fade;
-		fade_inv *= 2;
-
-		float test = fade;
-		test *= 2;
-		return (iteration < (max / 2) ? ((int)(0xFF * fade_inv) * 0x10000) + ((int)(0xFF * fade_inv) * 0x100) + (int)(0xFF * fade_inv) :
-			((int)(0xFF * test) * 0x10000) + ((int)(0xFF * test) * 0x100) + (int)(0xFF * test));
+		if (iter * 2 < max)
+			fade = (0xFF - fade) * 2;
+		if (iter * 2 < max)
+			return (fade * 0x10000 + fade * 0x100 + fade);
+		fade *= 2;
+		return (fade * 0x10000 + fade * 0x100 + fade);
 	}
-	else if (color == 3 && iteration == max)
+	else if (color == 3 && iter == max)
 		return (0xFFFFFF);
 	else if (color == 3)
-		return (iteration % 2 ? 0xFF7777 : 0xFFCCCC);
+		return (iter % 2 ? 0xFF7777 : 0xFFCCCC);
 	else if (color == 4)
-		return  (iteration == max ? 0xFF0000 : -216380416);
+		return (iter == max ? 0xFF0000 : -216380416);
 	else if (color == 5)
-		return(get_color_5(fade, other, 0));
-	return(get_color_6(fade, max, other, iteration));
+		return (get_color_5(((float)(max - iter) / max), other, 0));
+	return (get_color_6(fade, max, other, iter));
 }
 
 void	color_settings(t_args *args)
