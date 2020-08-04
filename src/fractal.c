@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 21:39:51 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 15:05:52 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_fractal(t_args *args)
 	args->threads_ready = 0;
 	args->sync_threads = 0;
 	while (args->out_sync < THREAD_COUNT)
-		usleep(10);
+		usleep(1);
 	args->sync_threads = 1;
 	args->out_sync = 0;
 	color_settings(args);

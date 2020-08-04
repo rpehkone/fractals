@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 17:54:47 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 16:17:53 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ void	put_usage(char *arg)
 
 int		main(int argc, char **argv)
 {
-	// vai argc < 2
-	if (argc != 2)
+	if (argc < 2)
 		put_usage(argv[0]);
 	else if (!ft_strcmp(argv[1], "mandelbrot"))
 	{
