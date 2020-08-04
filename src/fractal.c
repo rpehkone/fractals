@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 17:49:04 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/04 17:54:58 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,26 @@ void	fractal(void)
 	}
 	if (is_mouse_down(1) && args->fractal_id != 2)
 	{
-		args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
-		args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+		args->zoom2 = args->zoom2 * (1.0 / 1.1);
+		if (args->zoom2 < 0.0000001)
+			args->zoom2 = 0.0000001;
+		else
+		{
+			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
+			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+		}
 	}
 	if (is_mouse_down(2) && args->fractal_id != 2)
 	{
-		args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
-		args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+		args->zoom2 = args->zoom2 * 1.1;
+		if (args->zoom2 > 1)
+			args->zoom2 = 1;
+		else
+		{
+			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
+			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+		}
 	}
-	args->zoom2 = is_mouse_down(1) ? args->zoom2 * (1.0 / 1.1) : args->zoom2;
-	args->zoom2 = is_mouse_down(2) ? args->zoom2 * 1.1 : args->zoom2;
-	if (args->zoom2 > 1)
-		args->zoom2 = 1;
-	else if (args->zoom2 < 0.0000001)
-		args->zoom2 = 0.0000001;
 	args->max_iter2 = is_key_down(126) ? args->max_iter2 + 1 : args->max_iter2;
 	args->max_iter2 = is_key_down(125) ? args->max_iter2 - 1 : args->max_iter2;
 	args->max_iter2 = args->max_iter2 < 0 ? 0 : args->max_iter2;
