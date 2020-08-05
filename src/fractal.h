@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 17:17:03 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/05 18:46:11 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 # include "mlx_io.h"
 # include <pthread.h>
 # include <math.h>
-# define THREAD_COUNT 5
+# define THREAD_AMOUNT 1
 # define WIDTH 960
 # define HEIGHT 550
+//# define WIDTH 1920
+//# define HEIGHT 1080
 # define ASPECT_WIDTH 16.0
 # define ASPECT_HEIGHT 9.0
 
@@ -28,25 +30,17 @@ typedef struct	s_float_xy {
 
 typedef struct	s_args {
 	t_float_xy	pos;
-	t_float_xy	pos2;
 	float		zoom;
-	float		zoom2;
 	int			max_iter;
-	int			max_iter2;
-	int			fractal_id;
-	int			**dbuffer;
-	int			threads_ready;
-	int			sync_threads;
-	int			out_sync;
-	int			buffer_id;
 	int			color;
+	int			fractal_id;
+	void		(*fractal)(struct s_args*, int, int);
 }				t_args;
 
 void			mandelbrot(t_args *args, int start, int stop);
 void			julia(t_args *args, int start, int stop);
 void			burningship(t_args *args, int start, int stop);
-t_args			*init_fractal(int i);
+t_args			*init_settings(int i);
 void			color_settings(t_args *args);
 int				select_color(int color, int max, int other, int iteration);
-void			sync_threads(t_args *args);
 #endif

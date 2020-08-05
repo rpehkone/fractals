@@ -6,102 +6,158 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 19:34:16 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/05 19:03:37 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
 
-void	sync_threads(t_args *args)
+#include <stdio.h>
+t_args	*init_settings(int fractal)
 {
-	args->threads_ready++;
-	while (args->sync_threads)
-		usleep(1);
-	args->out_sync++;
+	static t_args	args;
+
+	if (!fractal)
+		return (&args);
+	if (fractal == 1)
+		args.fractal = &mandelbrot;
+	else if (fractal == 2)
+		args.fractal = &julia;
+	else if (fractal == 3)
+		args.fractal = &burningship;
+	args.fractal_id = fractal;
+	args.max_iter = 50;
+	if (fractal != 3)
+	{
+		args.pos.x = 0;
+		args.pos.y = 0;
+		args.zoom = .3;
+		//args.color = 5;
+		args.color = 0;
+	}
+	else
+	{
+		args.pos.x = -175;
+		args.pos.y = -3;
+		args.zoom = 0.0117;
+		args.color = 6;
+	}
+	return (NULL);
+}
+
+void	*split_screen(void *args)
+{
+	static int	s = 0;
+
+		mandelbrot(((t_args*)args), 0, 500);
+		//((t_args*)args)->fractal(((t_args*)args), 0, 500);
+	printf("xd\n");
+	return (NULL);
+	s++;
+	if (s == THREAD_AMOUNT)
+	{
+		((t_args*)args)->fractal(((t_args*)args), (HEIGHT / THREAD_AMOUNT) * (s - 1),
+											(HEIGHT / THREAD_AMOUNT) * s);
+		s = 0;
+	}
+	else
+		((t_args*)args)->fractal(((t_args*)args), (HEIGHT / THREAD_AMOUNT) * (s - 1),
+											(HEIGHT / THREAD_AMOUNT) * s);
+	return (NULL);
 }
 
 void	print_fractal(t_args *args)
 {
-	int	old_max_iter;
-	int	not_active_id;
-	int	x;
-	int	y;
+	pthread_t	tid[THREAD_AMOUNT];
+	int			i;
 
-	old_max_iter = args->max_iter;
-	while (args->threads_ready < THREAD_COUNT)
-		usleep(1);
-	not_active_id = args->buffer_id;
-	args->buffer_id = args->buffer_id ? 0 : 1;
-	args->zoom = args->zoom2;
-	args->pos = args->pos2;
-	args->max_iter = args->max_iter2;
-	args->threads_ready = 0;
-	args->sync_threads = 0;
-	while (args->out_sync < THREAD_COUNT)
-		usleep(1);
-	args->sync_threads = 1;
-	args->out_sync = 0;
-	color_settings(args);
-	y = 0;
-	while ((x = -1) && ++y < HEIGHT)
-		while (++x < WIDTH)
-			pixel_put(x, y, select_color(args->color, old_max_iter,
-			not_active_id, args->dbuffer[not_active_id][y * WIDTH + x]));
-	//siirtaa putpixelin tahan
+	i = 0;
+	while (i < THREAD_AMOUNT)
+	{
+		pthread_create(&tid[i], NULL, split_screen, (void*)&args);
+		usleep(1000);
+		i++;
+	}
+	i = 0;
+	while (i < THREAD_AMOUNT)
+	{
+		pthread_join(tid[i], NULL);
+		i++;
+	}
+}
+
+void	handle_settings(t_args *args, t_int_xy c, t_int_xy oldc)
+{
+	if (is_mouse_down(3))
+		args->pos.x -= ((float)c.x - oldc.x) * args->zoom;
+	if (is_mouse_down(3))
+		args->pos.y -= ((float)c.y - oldc.y) * args->zoom;
+	if (is_key_down(126))
+	   	args->max_iter += 1;
+	if (is_key_down(125))
+	   	args->max_iter -= 1;
+	if (args->max_iter < 0)
+	   	args->max_iter = 0;
+	else if (args->max_iter > 50)
+	   	args->max_iter = 50;
 }
 
 void	handle_zoom(t_args *args, t_int_xy c, t_int_xy oldc)
 {
-	if (is_mouse_down(3))
-		args->pos2.x -= ((float)c.x - oldc.x) * args->zoom2;
-	if (is_mouse_down(3))
-		args->pos2.y -= ((float)c.y - oldc.y) * args->zoom2;
+	if (is_mouse_down(4))
+		args->pos.x -= (float)c.x - oldc.x;
+	if (is_mouse_down(5))
+		args->pos.y -= (float)c.y - oldc.y;
 	if (is_mouse_down(1) && args->fractal_id != 2)
 	{
-		args->zoom2 = args->zoom2 * (1.0 / 1.1);
-		if (args->zoom2 < 0.0000002)
-			args->zoom2 = 0.0000002;
+		args->zoom = args->zoom * (1.0 / 1.1);
+		if (args->zoom < 0.0000002)
+			args->zoom = 0.0000002;
 		else
 		{
-			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
-			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+			args->pos.x += (c.x - WIDTH / 2) * (0.1 * args->zoom);
+			args->pos.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom);
 		}
 	}
 	if (is_mouse_down(2) && args->fractal_id != 2)
 	{
-		args->zoom2 = args->zoom2 * 1.1;
-		if (args->zoom2 > 1)
-			args->zoom2 = 1;
-		if (args->zoom2 < 1)
-			args->pos2.x += (c.x - WIDTH / 2) * (0.1 * args->zoom2);
-		if (args->zoom2 < 1)
-			args->pos2.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom2);
+		args->zoom = args->zoom * 1.1;
+		if (args->zoom > 1)
+			args->zoom = 1;
+		if (args->zoom < 1)
+			args->pos.x += (c.x - WIDTH / 2) * (0.1 * args->zoom);
+		if (args->zoom < 1)
+			args->pos.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom);
 	}
 }
 
 void	fractal(void)
 {
-	static t_args	*args = NULL;
+	static t_args	*settings = NULL;
 	static t_int_xy	oldc;
-	t_int_xy		c;
+	t_int_xy		cursor;
 
 	if (is_key_down(53))
 		exit(0);
-	if (!args)
-		args = init_fractal(0);
+	if (!settings)
+		settings = init_settings(0);
 	update_image();
-	c = get_cursor();
-	if (args->fractal_id == 2)
+	cursor = get_cursor();
+	if (settings->fractal_id == 2)
 	{
-		args->pos2.x -= ((float)c.x - oldc.x);
-		args->pos2.y -= ((float)c.y - oldc.y);
+		settings->pos.x -= ((float)cursor.x - oldc.x);
+		settings->pos.y -= ((float)cursor.y - oldc.y);
 	}
-	handle_zoom(args, c, oldc);
-	args->max_iter2 = is_key_down(126) ? args->max_iter2 + 1 : args->max_iter2;
-	args->max_iter2 = is_key_down(125) ? args->max_iter2 - 1 : args->max_iter2;
-	args->max_iter2 = args->max_iter2 < 0 ? 0 : args->max_iter2;
-	args->max_iter2 = args->max_iter2 > 50 ? 50 : args->max_iter2;
-	oldc.x = c.x;
-	oldc.y = c.y;
-	print_fractal(args);
+	handle_settings(settings, cursor, oldc);
+	handle_zoom(settings, cursor, oldc);
+	color_settings(settings);
+	oldc.x = cursor.x;
+	oldc.y = cursor.y;
+	print_fractal(settings);
+
+	return ;
+	static int counter = 0;
+	counter++;
+	if (counter > 50)
+		exit(0);
 }

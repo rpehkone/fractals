@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:40:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 20:43:13 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/05 18:42:02 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,19 @@ void	julia(t_args *args, int start, int stop)
 	int			x;
 	int			y;
 
-	while (1)
+	y = start;
+	pos.x = args->pos.x + WIDTH;
+	pos.y = args->pos.y + HEIGHT;
+	while (!(x = 0) && y < stop)
 	{
-		y = start;
-		pos.x = args->pos.x + WIDTH;
-		pos.y = args->pos.y + HEIGHT;
-		while (!(x = 0) && y < stop)
+		while (x < WIDTH)
 		{
-			while (x < WIDTH)
-			{
-				cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
-				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
-				args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
-								julia_iteration(cx, cy, args->max_iter, pos);
-				x++;
-			}
-			y++;
+			cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
+			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
+			//args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
+			//				julia_iteration(cx, cy, args->max_iter, pos);
+			x++;
 		}
-		sync_threads(args);
+		y++;
 	}
 }

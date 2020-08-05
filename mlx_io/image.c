@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 15:04:17 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/07/30 12:20:43 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/05 12:53:44 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	update_image(void)
 	if (!mlx)
 		mlx = get_mlx(NULL);
 	mlx_put_image_to_window(mlx[0], mlx[1], mlx[2], 0, 0);
-	clear_image();
+	//clear_image();
 }
 
 void	pixel_put(int x, int y, unsigned color)

@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:34:06 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/03 20:43:00 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/05 18:52:01 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		mandelbrot_iteration(float cx, float cy, int max_iter)
 	}
 	return (iteration);
 }
-
+#include <stdio.h>
 void	mandelbrot(t_args *a, int start, int stop)
 {
 	t_float_xy	pos;
@@ -40,23 +40,21 @@ void	mandelbrot(t_args *a, int start, int stop)
 	int			x;
 	int			y;
 
-	while (1)
+	printf("1\n");
+	y = start - 1;
+	pos.x = a->pos.x / (100 / a->zoom);
+	pos.y = a->pos.y / (100 / a->zoom);
+	static int frame = 0;
+	frame = frame ? 0 : 1;
+	while ((x = -1) && ++y < stop)
 	{
-		y = start - 1;
-		pos.x = a->pos.x / (100 / a->zoom);
-		pos.y = a->pos.y / (100 / a->zoom);
-		while ((x = -1) && ++y < stop)
+		while (++x < WIDTH)
 		{
-			while (++x < WIDTH)
-			{
-				cx = (x - WIDTH / 2) * (ASPECT_WIDTH * a->zoom)
-											/ WIDTH + pos.x / a->zoom;
-				cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * a->zoom)
-											/ HEIGHT) + pos.y / a->zoom;
-				a->dbuffer[a->buffer_id][x + ((start + y) * WIDTH)] =
-								mandelbrot_iteration(cx, cy, a->max_iter);
-			}
+			cx = (x - WIDTH / 2) * (ASPECT_WIDTH * a->zoom)
+										/ WIDTH + pos.x / a->zoom;
+			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * a->zoom)
+										/ HEIGHT) + pos.y / a->zoom;
+			pixel_put(x, y, select_color(a->color, 50, frame, mandelbrot_iteration(cx, cy, a->max_iter)));
 		}
-		sync_threads(a);
 	}
 }
