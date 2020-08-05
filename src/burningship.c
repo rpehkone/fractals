@@ -12,12 +12,12 @@
 
 #include "fractal.h"
 
-int		burningship_iteration(PRECISION cx, PRECISION cy, int max_iter)
+int		burningship_iter(PRECISION cx, PRECISION cy, int max_iter)
 {
 	PRECISION	zx;
 	PRECISION	zy;
 	PRECISION	tempx;
-	int		iteration;
+	int			iteration;
 
 	zx = 0;
 	zy = 0;
@@ -39,8 +39,8 @@ void	burningship(t_settings *settings, int start, int stop)
 	t_position_xy	pos;
 	PRECISION		cx;
 	PRECISION		cy;
-	int			x;
-	int			y;
+	int				x;
+	int				y;
 
 	y = start - 1;
 	pos.x = settings->pos.x / (100 / settings->zoom);
@@ -52,6 +52,7 @@ void	burningship(t_settings *settings, int start, int stop)
 												+ pos.x / settings->zoom;
 			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * settings->zoom) / HEIGHT)
 												+ pos.y / settings->zoom;
-			pixel_put(x, y, select_color(settings->color, settings->max_iter, settings->frame, burningship_iteration(cx, cy, settings->max_iter)));
+			pixel_put(x, y, select_color(settings->color, settings->max_iter,
+			settings->frame, burningship_iter(cx, cy, settings->max_iter)));
 		}
 }

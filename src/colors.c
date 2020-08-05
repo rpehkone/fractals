@@ -104,8 +104,10 @@ void	color_settings(t_settings *settings)
 	settings->frame = settings->frame ? 0 : 1;
 	if (!last_down)
 	{
-		settings->color = is_key_down(124) ? settings->color + 1 : settings->color;
-		settings->color = is_key_down(123) ? settings->color - 1 : settings->color;
+		if (is_key_down(124))
+			settings->color += 1;
+		if (is_key_down(123))
+			settings->color -= 1;
 	}
 	if (settings->color < 0)
 		settings->color = 6;

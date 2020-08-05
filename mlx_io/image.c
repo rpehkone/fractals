@@ -36,7 +36,6 @@ void	update_image(void)
 	if (!mlx)
 		mlx = get_mlx(NULL);
 	mlx_put_image_to_window(mlx[0], mlx[1], mlx[2], 0, 0);
-	//clear_image();
 }
 
 void	pixel_put(int x, int y, unsigned color)
@@ -54,8 +53,6 @@ void	pixel_put(int x, int y, unsigned color)
 		win_size = get_window_size();
 		win_size.x = dummy;
 	}
-	//if (x * 4 >= win_size.x || y >= win_size.y || x < 0 || y < 0)
-	//	return ;
 	data[(y * win_size.x) + (x * 4) + 3] = color >> 4 * 6;
 	data[(y * win_size.x) + (x * 4) + 2] = (color % 0x1000000) >> 4 * 4;
 	data[(y * win_size.x) + (x * 4) + 1] = (color % 0x1000000) >> 4 * 2;

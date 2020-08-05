@@ -14,19 +14,18 @@
 
 void	*split_screen(void *settings)
 {
-	
 	static int	s = 0;
 
 	s++;
 	if (s == THREAD_AMOUNT)
 	{
-		((t_settings*)settings)->fractal(((t_settings*)settings), (HEIGHT / THREAD_AMOUNT) * (s - 1),
-											(HEIGHT / THREAD_AMOUNT) * s);
+		((t_settings*)settings)->fractal(((t_settings*)settings),
+			(HEIGHT / THREAD_AMOUNT) * (s - 1), (HEIGHT / THREAD_AMOUNT) * s);
 		s = 0;
 	}
 	else
-		((t_settings*)settings)->fractal(((t_settings*)settings), (HEIGHT / THREAD_AMOUNT) * (s - 1),
-											(HEIGHT / THREAD_AMOUNT) * s);
+		((t_settings*)settings)->fractal(((t_settings*)settings),
+			(HEIGHT / THREAD_AMOUNT) * (s - 1), (HEIGHT / THREAD_AMOUNT) * s);
 	return (NULL);
 }
 
@@ -57,13 +56,13 @@ void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 	if (is_mouse_down(3))
 		settings->pos.y -= ((PRECISION)c.y - oldc.y) * settings->zoom;
 	if (is_key_down(126))
-	   	settings->max_iter += 1;
+		settings->max_iter += 1;
 	if (is_key_down(125))
-	   	settings->max_iter -= 1;
+		settings->max_iter -= 1;
 	if (settings->max_iter < 0)
-	   	settings->max_iter = 0;
+		settings->max_iter = 0;
 	//else if (settings->max_iter > 50)
-	 //  	settings->max_iter = 50;
+		//settings->max_iter = 50;
 }
 
 void	handle_zoom(t_settings *settings, t_int_xy c, t_int_xy oldc)
@@ -98,8 +97,8 @@ void	handle_zoom(t_settings *settings, t_int_xy c, t_int_xy oldc)
 void	fractal(void)
 {
 	static t_settings	*settings = NULL;
-	static t_int_xy	oldc;
-	t_int_xy		cursor;
+	static t_int_xy		oldc;
+	t_int_xy			cursor;
 
 	if (is_key_down(53))
 		exit(0);

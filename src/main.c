@@ -32,25 +32,23 @@ t_settings	*init_settings(int fractal)
 		settings.pos.y = 0;
 		settings.zoom = .3;
 		settings.color = 5;
+		return (NULL);
 	}
-	else
-	{
-		settings.pos.x = -175;
-		settings.pos.y = -3;
-		settings.zoom = 0.0117;
-		settings.color = 6;
-	}
+	settings.pos.x = -175;
+	settings.pos.y = -3;
+	settings.zoom = 0.0117;
+	settings.color = 6;
 	return (NULL);
 }
 
-void	put_usage(char *arg)
+void		put_usage(char *arg)
 {
 	ft_putstr("usage: ");
 	ft_putstr(arg);
 	ft_putstr(" [mandelbrot | julia | burningship]\n");
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	if (argc != 2)
 		put_usage(argv[0]);
