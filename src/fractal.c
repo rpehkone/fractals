@@ -12,7 +12,6 @@
 
 #include "fractal.h"
 
-#include <stdio.h>
 t_args	*init_settings(int fractal)
 {
 	static t_args	args;
@@ -32,8 +31,7 @@ t_args	*init_settings(int fractal)
 		args.pos.x = 0;
 		args.pos.y = 0;
 		args.zoom = .3;
-		//args.color = 5;
-		args.color = 0;
+		args.color = 5;
 	}
 	else
 	{
@@ -47,12 +45,9 @@ t_args	*init_settings(int fractal)
 
 void	*split_screen(void *args)
 {
+	
 	static int	s = 0;
 
-		mandelbrot(((t_args*)args), 0, 500);
-		//((t_args*)args)->fractal(((t_args*)args), 0, 500);
-	printf("xd\n");
-	return (NULL);
 	s++;
 	if (s == THREAD_AMOUNT)
 	{
@@ -74,7 +69,7 @@ void	print_fractal(t_args *args)
 	i = 0;
 	while (i < THREAD_AMOUNT)
 	{
-		pthread_create(&tid[i], NULL, split_screen, (void*)&args);
+		pthread_create(&tid[i], NULL, split_screen, (void*)args);
 		usleep(1000);
 		i++;
 	}
@@ -98,36 +93,36 @@ void	handle_settings(t_args *args, t_int_xy c, t_int_xy oldc)
 	   	args->max_iter -= 1;
 	if (args->max_iter < 0)
 	   	args->max_iter = 0;
-	else if (args->max_iter > 50)
-	   	args->max_iter = 50;
+	//else if (args->max_iter > 50)
+	 //  	args->max_iter = 50;
 }
 
 void	handle_zoom(t_args *args, t_int_xy c, t_int_xy oldc)
 {
 	if (is_mouse_down(4))
-		args->pos.x -= (float)c.x - oldc.x;
+		args->pos.x -= (double)c.x - oldc.x;
 	if (is_mouse_down(5))
-		args->pos.y -= (float)c.y - oldc.y;
+		args->pos.y -= (double)c.y - oldc.y;
 	if (is_mouse_down(1) && args->fractal_id != 2)
 	{
-		args->zoom = args->zoom * (1.0 / 1.1);
+		args->zoom = args->zoom * (1.0 / 1.08);
 		if (args->zoom < 0.0000002)
-			args->zoom = 0.0000002;
+			;//args->zoom = 0.0000002;
 		else
 		{
-			args->pos.x += (c.x - WIDTH / 2) * (0.1 * args->zoom);
-			args->pos.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom);
+			args->pos.x += (c.x - WIDTH / 2) * (0.15 * args->zoom);
+			args->pos.y += (c.y - HEIGHT / 2) * (0.15 * args->zoom);
 		}
 	}
 	if (is_mouse_down(2) && args->fractal_id != 2)
 	{
-		args->zoom = args->zoom * 1.1;
+		args->zoom = args->zoom * 1.08;
 		if (args->zoom > 1)
 			args->zoom = 1;
 		if (args->zoom < 1)
-			args->pos.x += (c.x - WIDTH / 2) * (0.1 * args->zoom);
+			args->pos.x += (c.x - WIDTH / 2) * (0.15 * args->zoom);
 		if (args->zoom < 1)
-			args->pos.y += (c.y - HEIGHT / 2) * (0.1 * args->zoom);
+			args->pos.y += (c.y - HEIGHT / 2) * (0.15 * args->zoom);
 	}
 }
 
@@ -145,8 +140,8 @@ void	fractal(void)
 	cursor = get_cursor();
 	if (settings->fractal_id == 2)
 	{
-		settings->pos.x -= ((float)cursor.x - oldc.x);
-		settings->pos.y -= ((float)cursor.y - oldc.y);
+		settings->pos.x -= ((double)cursor.x - oldc.x);
+		settings->pos.y -= ((double)cursor.y - oldc.y);
 	}
 	handle_settings(settings, cursor, oldc);
 	handle_zoom(settings, cursor, oldc);

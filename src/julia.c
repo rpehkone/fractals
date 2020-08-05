@@ -53,6 +53,7 @@ void	julia(t_args *args, int start, int stop)
 		{
 			cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
 			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
+			pixel_put(x, y, select_color(args->color, args->max_iter, args->frame, julia_iteration(cx, cy, args->max_iter, pos)));
 			//args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
 			//				julia_iteration(cx, cy, args->max_iter, pos);
 			x++;

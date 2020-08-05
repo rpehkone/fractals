@@ -12,11 +12,11 @@
 
 #include "fractal.h"
 
-int		mandelbrot_iteration(float cx, float cy, int max_iter)
+int		mandelbrot_iteration(double cx, double cy, int max_iter)
 {
-	float	zx;
-	float	zy;
-	float	tempx;
+	double	zx;
+	double	zy;
+	double	tempx;
 	int		iteration;
 
 	zx = 0;
@@ -31,21 +31,18 @@ int		mandelbrot_iteration(float cx, float cy, int max_iter)
 	}
 	return (iteration);
 }
-#include <stdio.h>
+
 void	mandelbrot(t_args *a, int start, int stop)
 {
 	t_float_xy	pos;
-	float		cx;
-	float		cy;
+	double		cx;
+	double		cy;
 	int			x;
 	int			y;
 
-	printf("1\n");
 	y = start - 1;
 	pos.x = a->pos.x / (100 / a->zoom);
 	pos.y = a->pos.y / (100 / a->zoom);
-	static int frame = 0;
-	frame = frame ? 0 : 1;
 	while ((x = -1) && ++y < stop)
 	{
 		while (++x < WIDTH)
@@ -54,7 +51,7 @@ void	mandelbrot(t_args *a, int start, int stop)
 										/ WIDTH + pos.x / a->zoom;
 			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * a->zoom)
 										/ HEIGHT) + pos.y / a->zoom;
-			pixel_put(x, y, select_color(a->color, 50, frame, mandelbrot_iteration(cx, cy, a->max_iter)));
+			pixel_put(x, y, select_color(a->color, a->max_iter, a->frame, mandelbrot_iteration(cx, cy, a->max_iter)));
 		}
 	}
 }

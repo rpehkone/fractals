@@ -57,6 +57,7 @@ void	burningship(t_args *args, int start, int stop)
 												+ pos.x / args->zoom;
 			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT)
 												+ pos.y / args->zoom;
+			pixel_put(x, y, select_color(args->color, args->max_iter, args->frame, burningship_iteration(cx, cy, args->max_iter)));
 			//args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
 			//				burningship_iteration(cx, cy, args->max_iter);
 		}

@@ -68,7 +68,7 @@ int		get_color_5(int x, int frame_id, int i)
 	return ((int)red * 65536 + (int)grn * 256 + (int)blu);
 }
 
-int		select_color(int color, int max, int frame_id, int iter)
+int		select_color(int color, int max, int frame, int iter)
 {
 	int fade;
 
@@ -93,14 +93,15 @@ int		select_color(int color, int max, int frame_id, int iter)
 	else if (color == 4)
 		return (iter == max ? 0xFF0000 : -216380416);
 	else if (color == 5)
-		return (get_color_5(310 * ((float)(max - iter) / max), frame_id, 0));
-	return (get_color_6(max, frame_id, iter));
+		return (get_color_5(310 * ((float)(max - iter) / max), frame, 0));
+	return (get_color_6(max, frame, iter));
 }
 
 void	color_settings(t_args *args)
 {
 	static int last_down = 0;
 
+	args->frame = args->frame ? 0 : 1;
 	if (!last_down)
 	{
 		args->color = is_key_down(124) ? args->color + 1 : args->color;

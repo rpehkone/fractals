@@ -54,8 +54,8 @@ void	pixel_put(int x, int y, unsigned color)
 		win_size = get_window_size();
 		win_size.x = dummy;
 	}
-	if (x * 4 >= win_size.x || y >= win_size.y || x < 0 || y < 0)
-		return ;
+	//if (x * 4 >= win_size.x || y >= win_size.y || x < 0 || y < 0)
+	//	return ;
 	data[(y * win_size.x) + (x * 4) + 3] = color >> 4 * 6;
 	data[(y * win_size.x) + (x * 4) + 2] = (color % 0x1000000) >> 4 * 4;
 	data[(y * win_size.x) + (x * 4) + 1] = (color % 0x1000000) >> 4 * 2;

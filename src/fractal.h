@@ -15,7 +15,7 @@
 # include "mlx_io.h"
 # include <pthread.h>
 # include <math.h>
-# define THREAD_AMOUNT 1
+# define THREAD_AMOUNT 2
 # define WIDTH 960
 # define HEIGHT 550
 //# define WIDTH 1920
@@ -24,15 +24,16 @@
 # define ASPECT_HEIGHT 9.0
 
 typedef struct	s_float_xy {
-	float		x;
-	float		y;
+	double		x;
+	double		y;
 }				t_float_xy;
 
 typedef struct	s_args {
 	t_float_xy	pos;
-	float		zoom;
+	double		zoom;
 	int			max_iter;
 	int			color;
+	int			frame;
 	int			fractal_id;
 	void		(*fractal)(struct s_args*, int, int);
 }				t_args;
@@ -42,5 +43,5 @@ void			julia(t_args *args, int start, int stop);
 void			burningship(t_args *args, int start, int stop);
 t_args			*init_settings(int i);
 void			color_settings(t_args *args);
-int				select_color(int color, int max, int other, int iteration);
+int				select_color(int color, int max, int frame, int iteration);
 #endif
