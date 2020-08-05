@@ -12,11 +12,11 @@
 
 #include "fractal.h"
 
-int		mandelbrot_iteration(double cx, double cy, int max_iter)
+int		mandelbrot_iteration(PRECISION cx, PRECISION cy, int max_iter)
 {
-	double	zx;
-	double	zy;
-	double	tempx;
+	PRECISION	zx;
+	PRECISION	zy;
+	PRECISION	tempx;
 	int		iteration;
 
 	zx = 0;
@@ -34,9 +34,9 @@ int		mandelbrot_iteration(double cx, double cy, int max_iter)
 
 void	mandelbrot(t_args *a, int start, int stop)
 {
-	t_float_xy	pos;
-	double		cx;
-	double		cy;
+	t_position_xy	pos;
+	PRECISION		cx;
+	PRECISION		cy;
 	int			x;
 	int			y;
 

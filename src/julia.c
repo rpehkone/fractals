@@ -12,11 +12,11 @@
 
 #include "fractal.h"
 
-int		julia_iteration(float cx, float cy, int max_iter, t_float_xy pos)
+int		julia_iteration(PRECISION cx, PRECISION cy, int max_iter, t_position_xy pos)
 {
-	float	zx;
-	float	zy;
-	float	tempx;
+	PRECISION	zx;
+	PRECISION	zy;
+	PRECISION	tempx;
 	int		iteration;
 
 	zx = 0;
@@ -38,9 +38,9 @@ int		julia_iteration(float cx, float cy, int max_iter, t_float_xy pos)
 
 void	julia(t_args *args, int start, int stop)
 {
-	t_float_xy	pos;
-	float		cx;
-	float		cy;
+	t_position_xy	pos;
+	PRECISION		cx;
+	PRECISION		cy;
 	int			x;
 	int			y;
 
@@ -54,8 +54,6 @@ void	julia(t_args *args, int start, int stop)
 			cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
 			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
 			pixel_put(x, y, select_color(args->color, args->max_iter, args->frame, julia_iteration(cx, cy, args->max_iter, pos)));
-			//args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
-			//				julia_iteration(cx, cy, args->max_iter, pos);
 			x++;
 		}
 		y++;

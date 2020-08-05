@@ -84,9 +84,9 @@ void	print_fractal(t_args *args)
 void	handle_settings(t_args *args, t_int_xy c, t_int_xy oldc)
 {
 	if (is_mouse_down(3))
-		args->pos.x -= ((float)c.x - oldc.x) * args->zoom;
+		args->pos.x -= ((PRECISION)c.x - oldc.x) * args->zoom;
 	if (is_mouse_down(3))
-		args->pos.y -= ((float)c.y - oldc.y) * args->zoom;
+		args->pos.y -= ((PRECISION)c.y - oldc.y) * args->zoom;
 	if (is_key_down(126))
 	   	args->max_iter += 1;
 	if (is_key_down(125))
@@ -100,9 +100,9 @@ void	handle_settings(t_args *args, t_int_xy c, t_int_xy oldc)
 void	handle_zoom(t_args *args, t_int_xy c, t_int_xy oldc)
 {
 	if (is_mouse_down(4))
-		args->pos.x -= (double)c.x - oldc.x;
+		args->pos.x -= (PRECISION)c.x - oldc.x;
 	if (is_mouse_down(5))
-		args->pos.y -= (double)c.y - oldc.y;
+		args->pos.y -= (PRECISION)c.y - oldc.y;
 	if (is_mouse_down(1) && args->fractal_id != 2)
 	{
 		args->zoom = args->zoom * (1.0 / 1.08);
@@ -140,8 +140,8 @@ void	fractal(void)
 	cursor = get_cursor();
 	if (settings->fractal_id == 2)
 	{
-		settings->pos.x -= ((double)cursor.x - oldc.x);
-		settings->pos.y -= ((double)cursor.y - oldc.y);
+		settings->pos.x -= ((PRECISION)cursor.x - oldc.x);
+		settings->pos.y -= ((PRECISION)cursor.y - oldc.y);
 	}
 	handle_settings(settings, cursor, oldc);
 	handle_zoom(settings, cursor, oldc);
@@ -149,10 +149,4 @@ void	fractal(void)
 	oldc.x = cursor.x;
 	oldc.y = cursor.y;
 	print_fractal(settings);
-
-	return ;
-	static int counter = 0;
-	counter++;
-	if (counter > 50)
-		exit(0);
 }

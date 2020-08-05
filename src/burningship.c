@@ -12,16 +12,11 @@
 
 #include "fractal.h"
 
-float	ft_abs(float n)
+int		burningship_iteration(PRECISION cx, PRECISION cy, int max_iter)
 {
-	return (n < 0 ? n * -1 : n);
-}
-
-int		burningship_iteration(float cx, float cy, int max_iter)
-{
-	float	zx;
-	float	zy;
-	float	tempx;
+	PRECISION	zx;
+	PRECISION	zy;
+	PRECISION	tempx;
 	int		iteration;
 
 	zx = 0;
@@ -29,8 +24,8 @@ int		burningship_iteration(float cx, float cy, int max_iter)
 	iteration = 0;
 	while ((zx * zx + zy * zy < 4) && (iteration < max_iter))
 	{
-		zx = ft_abs(zx);
-		zy = ft_abs(zy);
+		zx = zx < 0 ? zx * -1 : zx;
+		zy = zy < 0 ? zy * -1 : zy;
 		tempx = zx * zx - zy * zy + cx;
 		zy = 2 * zx * zy + cy;
 		zx = tempx;
@@ -41,9 +36,9 @@ int		burningship_iteration(float cx, float cy, int max_iter)
 
 void	burningship(t_args *args, int start, int stop)
 {
-	t_float_xy	pos;
-	float		cx;
-	float		cy;
+	t_position_xy	pos;
+	PRECISION		cx;
+	PRECISION		cy;
 	int			x;
 	int			y;
 
@@ -58,7 +53,5 @@ void	burningship(t_args *args, int start, int stop)
 			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT)
 												+ pos.y / args->zoom;
 			pixel_put(x, y, select_color(args->color, args->max_iter, args->frame, burningship_iteration(cx, cy, args->max_iter)));
-			//args->dbuffer[args->buffer_id][x + ((start + y) * WIDTH)] =
-			//				burningship_iteration(cx, cy, args->max_iter);
 		}
 }
