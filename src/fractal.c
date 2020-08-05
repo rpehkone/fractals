@@ -12,37 +12,6 @@
 
 #include "fractal.h"
 
-t_settings	*init_settings(int fractal)
-{
-	static t_settings	settings;
-
-	if (!fractal)
-		return (&settings);
-	if (fractal == 1)
-		settings.fractal = &mandelbrot;
-	else if (fractal == 2)
-		settings.fractal = &julia;
-	else if (fractal == 3)
-		settings.fractal = &burningship;
-	settings.fractal_id = fractal;
-	settings.max_iter = 50;
-	if (fractal != 3)
-	{
-		settings.pos.x = 0;
-		settings.pos.y = 0;
-		settings.zoom = .3;
-		settings.color = 5;
-	}
-	else
-	{
-		settings.pos.x = -175;
-		settings.pos.y = -3;
-		settings.zoom = 0.0117;
-		settings.color = 6;
-	}
-	return (NULL);
-}
-
 void	*split_screen(void *settings)
 {
 	
