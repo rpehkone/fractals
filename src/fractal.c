@@ -12,38 +12,38 @@
 
 #include "fractal.h"
 
-t_args	*init_settings(int fractal)
+t_settings	*init_settings(int fractal)
 {
-	static t_args	args;
+	static t_settings	settings;
 
 	if (!fractal)
-		return (&args);
+		return (&settings);
 	if (fractal == 1)
-		args.fractal = &mandelbrot;
+		settings.fractal = &mandelbrot;
 	else if (fractal == 2)
-		args.fractal = &julia;
+		settings.fractal = &julia;
 	else if (fractal == 3)
-		args.fractal = &burningship;
-	args.fractal_id = fractal;
-	args.max_iter = 50;
+		settings.fractal = &burningship;
+	settings.fractal_id = fractal;
+	settings.max_iter = 50;
 	if (fractal != 3)
 	{
-		args.pos.x = 0;
-		args.pos.y = 0;
-		args.zoom = .3;
-		args.color = 5;
+		settings.pos.x = 0;
+		settings.pos.y = 0;
+		settings.zoom = .3;
+		settings.color = 5;
 	}
 	else
 	{
-		args.pos.x = -175;
-		args.pos.y = -3;
-		args.zoom = 0.0117;
-		args.color = 6;
+		settings.pos.x = -175;
+		settings.pos.y = -3;
+		settings.zoom = 0.0117;
+		settings.color = 6;
 	}
 	return (NULL);
 }
 
-void	*split_screen(void *args)
+void	*split_screen(void *settings)
 {
 	
 	static int	s = 0;
@@ -51,17 +51,17 @@ void	*split_screen(void *args)
 	s++;
 	if (s == THREAD_AMOUNT)
 	{
-		((t_args*)args)->fractal(((t_args*)args), (HEIGHT / THREAD_AMOUNT) * (s - 1),
+		((t_settings*)settings)->fractal(((t_settings*)settings), (HEIGHT / THREAD_AMOUNT) * (s - 1),
 											(HEIGHT / THREAD_AMOUNT) * s);
 		s = 0;
 	}
 	else
-		((t_args*)args)->fractal(((t_args*)args), (HEIGHT / THREAD_AMOUNT) * (s - 1),
+		((t_settings*)settings)->fractal(((t_settings*)settings), (HEIGHT / THREAD_AMOUNT) * (s - 1),
 											(HEIGHT / THREAD_AMOUNT) * s);
 	return (NULL);
 }
 
-void	print_fractal(t_args *args)
+void	print_fractal(t_settings *settings)
 {
 	pthread_t	tid[THREAD_AMOUNT];
 	int			i;
@@ -69,7 +69,7 @@ void	print_fractal(t_args *args)
 	i = 0;
 	while (i < THREAD_AMOUNT)
 	{
-		pthread_create(&tid[i], NULL, split_screen, (void*)args);
+		pthread_create(&tid[i], NULL, split_screen, (void*)settings);
 		usleep(1000);
 		i++;
 	}
@@ -81,54 +81,54 @@ void	print_fractal(t_args *args)
 	}
 }
 
-void	handle_settings(t_args *args, t_int_xy c, t_int_xy oldc)
+void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 {
 	if (is_mouse_down(3))
-		args->pos.x -= ((PRECISION)c.x - oldc.x) * args->zoom;
+		settings->pos.x -= ((PRECISION)c.x - oldc.x) * settings->zoom;
 	if (is_mouse_down(3))
-		args->pos.y -= ((PRECISION)c.y - oldc.y) * args->zoom;
+		settings->pos.y -= ((PRECISION)c.y - oldc.y) * settings->zoom;
 	if (is_key_down(126))
-	   	args->max_iter += 1;
+	   	settings->max_iter += 1;
 	if (is_key_down(125))
-	   	args->max_iter -= 1;
-	if (args->max_iter < 0)
-	   	args->max_iter = 0;
-	//else if (args->max_iter > 50)
-	 //  	args->max_iter = 50;
+	   	settings->max_iter -= 1;
+	if (settings->max_iter < 0)
+	   	settings->max_iter = 0;
+	//else if (settings->max_iter > 50)
+	 //  	settings->max_iter = 50;
 }
 
-void	handle_zoom(t_args *args, t_int_xy c, t_int_xy oldc)
+void	handle_zoom(t_settings *settings, t_int_xy c, t_int_xy oldc)
 {
 	if (is_mouse_down(4))
-		args->pos.x -= (PRECISION)c.x - oldc.x;
+		settings->pos.x -= (PRECISION)c.x - oldc.x;
 	if (is_mouse_down(5))
-		args->pos.y -= (PRECISION)c.y - oldc.y;
-	if (is_mouse_down(1) && args->fractal_id != 2)
+		settings->pos.y -= (PRECISION)c.y - oldc.y;
+	if (is_mouse_down(1) && settings->fractal_id != 2)
 	{
-		args->zoom = args->zoom * (1.0 / 1.08);
-		if (args->zoom < 0.0000002)
-			;//args->zoom = 0.0000002;
+		settings->zoom = settings->zoom * (1.0 / 1.08);
+		if (settings->zoom < 0.0000002)
+			;//settings->zoom = 0.0000002;
 		else
 		{
-			args->pos.x += (c.x - WIDTH / 2) * (0.15 * args->zoom);
-			args->pos.y += (c.y - HEIGHT / 2) * (0.15 * args->zoom);
+			settings->pos.x += (c.x - WIDTH / 2) * (0.15 * settings->zoom);
+			settings->pos.y += (c.y - HEIGHT / 2) * (0.15 * settings->zoom);
 		}
 	}
-	if (is_mouse_down(2) && args->fractal_id != 2)
+	if (is_mouse_down(2) && settings->fractal_id != 2)
 	{
-		args->zoom = args->zoom * 1.08;
-		if (args->zoom > 1)
-			args->zoom = 1;
-		if (args->zoom < 1)
-			args->pos.x += (c.x - WIDTH / 2) * (0.15 * args->zoom);
-		if (args->zoom < 1)
-			args->pos.y += (c.y - HEIGHT / 2) * (0.15 * args->zoom);
+		settings->zoom = settings->zoom * 1.08;
+		if (settings->zoom > 1)
+			settings->zoom = 1;
+		if (settings->zoom < 1)
+			settings->pos.x += (c.x - WIDTH / 2) * (0.15 * settings->zoom);
+		if (settings->zoom < 1)
+			settings->pos.y += (c.y - HEIGHT / 2) * (0.15 * settings->zoom);
 	}
 }
 
 void	fractal(void)
 {
-	static t_args	*settings = NULL;
+	static t_settings	*settings = NULL;
 	static t_int_xy	oldc;
 	t_int_xy		cursor;
 

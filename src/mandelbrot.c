@@ -32,7 +32,7 @@ int		mandelbrot_iteration(PRECISION cx, PRECISION cy, int max_iter)
 	return (iteration);
 }
 
-void	mandelbrot(t_args *a, int start, int stop)
+void	mandelbrot(t_settings *settings, int start, int stop)
 {
 	t_position_xy	pos;
 	PRECISION		cx;
@@ -41,17 +41,17 @@ void	mandelbrot(t_args *a, int start, int stop)
 	int			y;
 
 	y = start - 1;
-	pos.x = a->pos.x / (100 / a->zoom);
-	pos.y = a->pos.y / (100 / a->zoom);
+	pos.x = settings->pos.x / (100 / settings->zoom);
+	pos.y = settings->pos.y / (100 / settings->zoom);
 	while ((x = -1) && ++y < stop)
 	{
 		while (++x < WIDTH)
 		{
-			cx = (x - WIDTH / 2) * (ASPECT_WIDTH * a->zoom)
-										/ WIDTH + pos.x / a->zoom;
-			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * a->zoom)
-										/ HEIGHT) + pos.y / a->zoom;
-			pixel_put(x, y, select_color(a->color, a->max_iter, a->frame, mandelbrot_iteration(cx, cy, a->max_iter)));
+			cx = (x - WIDTH / 2) * (ASPECT_WIDTH * settings->zoom)
+										/ WIDTH + pos.x / settings->zoom;
+			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * settings->zoom)
+										/ HEIGHT) + pos.y / settings->zoom;
+			pixel_put(x, y, select_color(settings->color, settings->max_iter, settings->frame, mandelbrot_iteration(cx, cy, settings->max_iter)));
 		}
 	}
 }

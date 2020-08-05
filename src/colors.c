@@ -97,19 +97,19 @@ int		select_color(int color, int max, int frame, int iter)
 	return (get_color_6(max, frame, iter));
 }
 
-void	color_settings(t_args *args)
+void	color_settings(t_settings *settings)
 {
 	static int last_down = 0;
 
-	args->frame = args->frame ? 0 : 1;
+	settings->frame = settings->frame ? 0 : 1;
 	if (!last_down)
 	{
-		args->color = is_key_down(124) ? args->color + 1 : args->color;
-		args->color = is_key_down(123) ? args->color - 1 : args->color;
+		settings->color = is_key_down(124) ? settings->color + 1 : settings->color;
+		settings->color = is_key_down(123) ? settings->color - 1 : settings->color;
 	}
-	if (args->color < 0)
-		args->color = 6;
-	else if (args->color > 6)
-		args->color = 0;
+	if (settings->color < 0)
+		settings->color = 6;
+	else if (settings->color > 6)
+		settings->color = 0;
 	last_down = is_key_down(124) || is_key_down(123) ? 1 : 0;
 }

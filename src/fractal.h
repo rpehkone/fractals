@@ -15,8 +15,8 @@
 # include "mlx_io.h"
 # include <pthread.h>
 # include <math.h>
-# define THREAD_AMOUNT 2
-# define PRECISION float
+# define THREAD_AMOUNT 6
+# define PRECISION long double
 # define WIDTH 960
 # define HEIGHT 550
 # define ASPECT_WIDTH 16.0
@@ -27,20 +27,20 @@ typedef struct		s_position_xy {
 	PRECISION		y;
 }					t_position_xy;
 
-typedef struct		s_args {
+typedef struct		s_settings {
 	t_position_xy	pos;
 	PRECISION		zoom;
 	int				max_iter;
 	int				color;
 	int				frame;
 	int				fractal_id;
-	void			(*fractal)(struct s_args*, int, int);
-}					t_args;
+	void			(*fractal)(struct s_settings*, int, int);
+}					t_settings;
 
-void				mandelbrot(t_args *args, int start, int stop);
-void				julia(t_args *args, int start, int stop);
-void				burningship(t_args *args, int start, int stop);
-t_args				*init_settings(int i);
-void				color_settings(t_args *args);
+void				mandelbrot(t_settings *settings, int start, int stop);
+void				julia(t_settings *settings, int start, int stop);
+void				burningship(t_settings *settings, int start, int stop);
+t_settings			*init_settings(int i);
+void				color_settings(t_settings *settings);
 int					select_color(int color, int max, int frame, int iteration);
 #endif

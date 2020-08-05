@@ -36,7 +36,7 @@ int		julia_iteration(PRECISION cx, PRECISION cy, int max_iter, t_position_xy pos
 	return (iteration);
 }
 
-void	julia(t_args *args, int start, int stop)
+void	julia(t_settings *settings, int start, int stop)
 {
 	t_position_xy	pos;
 	PRECISION		cx;
@@ -45,15 +45,15 @@ void	julia(t_args *args, int start, int stop)
 	int			y;
 
 	y = start;
-	pos.x = args->pos.x + WIDTH;
-	pos.y = args->pos.y + HEIGHT;
+	pos.x = settings->pos.x + WIDTH;
+	pos.y = settings->pos.y + HEIGHT;
 	while (!(x = 0) && y < stop)
 	{
 		while (x < WIDTH)
 		{
-			cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * args->zoom) / WIDTH);
-			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * args->zoom) / HEIGHT);
-			pixel_put(x, y, select_color(args->color, args->max_iter, args->frame, julia_iteration(cx, cy, args->max_iter, pos)));
+			cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * settings->zoom) / WIDTH);
+			cy = (y - HEIGHT / 2) * ((ASPECT_HEIGHT * settings->zoom) / HEIGHT);
+			pixel_put(x, y, select_color(settings->color, settings->max_iter, settings->frame, julia_iteration(cx, cy, settings->max_iter, pos)));
 			x++;
 		}
 		y++;
