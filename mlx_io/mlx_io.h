@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/07/31 17:42:40 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:33:04 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void			fractal(void);
 void			init_window(int width, int height, char *filename);
 void			update_image(void);
 void			pixel_put(int x, int y, unsigned color);
-void			string_to_image(int x, int y, int color, char *str);
 int				is_mouse_down(int button);
 int				is_key_down(int key);
 t_int_xy		get_cursor(void);

@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/06 11:24:58 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:44:20 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 		settings->max_iter -= 1;
 	if (settings->max_iter < 0)
 		settings->max_iter = 0;
-	//else if (settings->max_iter > 50)
-		//settings->max_iter = 50;
+	else if (settings->max_iter > 150)
+		settings->max_iter = 150;
 }
 
 void	handle_zoom(t_settings *settings, t_int_xy c)
@@ -74,8 +74,8 @@ void	handle_zoom(t_settings *settings, t_int_xy c)
 	if (is_mouse_down(1) && settings->fractal_id != 2)
 	{
 		settings->zoom = settings->zoom * (1.0 / 1.08);
-		if (settings->zoom < 0.0000002)
-			;//settings->zoom = 0.0000002;
+		if (settings->zoom < 0.00000000000000000050)
+			settings->zoom = 0.00000000000000000050;
 		else
 		{
 			settings->pos.x += (c.x - WIDTH / 2) * (0.15 * settings->zoom);

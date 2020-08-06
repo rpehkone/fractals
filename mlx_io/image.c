@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 15:04:17 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/05 12:53:44 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:33:15 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,4 @@ void	pixel_put(int x, int y, unsigned color)
 	data[(y * win_size.x) + (x * 4) + 2] = (color % 0x1000000) >> 4 * 4;
 	data[(y * win_size.x) + (x * 4) + 1] = (color % 0x1000000) >> 4 * 2;
 	data[(y * win_size.x) + (x * 4) + 0] = color % 0x1000000;
-}
-
-void	string_to_image(int x, int y, int color, char *str)
-{
-	static void **mlx = NULL;
-
-	if (!mlx)
-		mlx = get_mlx(NULL);
-	mlx_string_put(mlx[0], mlx[1], x, y, color, str);
 }
