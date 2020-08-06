@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/05 18:46:11 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:24:19 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <math.h>
 # define THREAD_AMOUNT 6
 # define PRECISION long double
-# define WIDTH 960
-# define HEIGHT 550
+# define WIDTH 1280
+# define HEIGHT 720
 # define ASPECT_WIDTH 16.0
 # define ASPECT_HEIGHT 9.0
 

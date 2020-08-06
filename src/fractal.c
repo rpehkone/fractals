@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/05 19:03:37 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:24:58 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	*split_screen(void *settings)
 	static int	s = 0;
 
 	s++;
-	if (s == THREAD_AMOUNT)
+	if (s >= THREAD_AMOUNT)
 	{
 		((t_settings*)settings)->fractal(((t_settings*)settings),
-			(HEIGHT / THREAD_AMOUNT) * (s - 1), (HEIGHT / THREAD_AMOUNT) * s);
+			(HEIGHT / THREAD_AMOUNT) * (s - 1), HEIGHT);
 		s = 0;
 	}
 	else
@@ -65,12 +65,12 @@ void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 		//settings->max_iter = 50;
 }
 
-void	handle_zoom(t_settings *settings, t_int_xy c, t_int_xy oldc)
+void	handle_zoom(t_settings *settings, t_int_xy c)
 {
 	if (is_mouse_down(4))
-		settings->pos.x -= (PRECISION)c.x - oldc.x;
+		settings->zoom = settings->zoom * (1.0 / 1.08);
 	if (is_mouse_down(5))
-		settings->pos.y -= (PRECISION)c.y - oldc.y;
+		settings->zoom = settings->zoom * 1.08;
 	if (is_mouse_down(1) && settings->fractal_id != 2)
 	{
 		settings->zoom = settings->zoom * (1.0 / 1.08);
@@ -112,7 +112,7 @@ void	fractal(void)
 		settings->pos.y -= ((PRECISION)cursor.y - oldc.y);
 	}
 	handle_settings(settings, cursor, oldc);
-	handle_zoom(settings, cursor, oldc);
+	handle_zoom(settings, cursor);
 	color_settings(settings);
 	oldc.x = cursor.x;
 	oldc.y = cursor.y;
