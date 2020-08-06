@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:40:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/05 18:42:02 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:54:02 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ void	julia(t_settings *settings, int start, int stop)
 	y = start;
 	pos.x = settings->pos.x + WIDTH;
 	pos.y = settings->pos.y + HEIGHT;
-	while (!(x = 0) && y < stop)
+	while (y < stop)
 	{
+		x = 0;
 		while (x < WIDTH)
 		{
 			cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * settings->zoom) / WIDTH);

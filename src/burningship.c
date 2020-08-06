@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/05 18:41:56 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:54:35 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ void	burningship(t_settings *settings, int start, int stop)
 	int				x;
 	int				y;
 
-	y = start - 1;
+	y = start;
 	pos.x = settings->pos.x / (100 / settings->zoom);
 	pos.y = settings->pos.y / (100 / settings->zoom);
-	while ((x = -1) && ++y < stop)
-		while (++x < WIDTH)
+	while (y < stop)
+	{
+		x = 0;
+		while (x < WIDTH)
 		{
 			cx = (x - WIDTH / 2) * ((ASPECT_WIDTH * settings->zoom) / WIDTH)
 												+ pos.x / settings->zoom;
@@ -54,5 +56,8 @@ void	burningship(t_settings *settings, int start, int stop)
 												+ pos.y / settings->zoom;
 			pixel_put(x, y, select_color(settings->color, settings->max_iter,
 			settings->frame, burningship_iter(cx, cy, settings->max_iter)));
+			x++;
 		}
+		y++;
+	}
 }

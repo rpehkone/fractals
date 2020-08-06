@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:34:06 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/05 18:52:01 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:53:41 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ void	mandelbrot(t_settings *settings, int start, int stop)
 	int				x;
 	int				y;
 
-	y = start - 1;
+	y = start;
 	pos.x = settings->pos.x / (100 / settings->zoom);
 	pos.y = settings->pos.y / (100 / settings->zoom);
-	while ((x = -1) && ++y < stop)
+	while (y < stop)
 	{
-		while (++x < WIDTH)
+		x = 0;
+		while (x < WIDTH)
 		{
 			cx = (x - WIDTH / 2) * (ASPECT_WIDTH * settings->zoom)
 										/ WIDTH + pos.x / settings->zoom;
@@ -53,6 +54,8 @@ void	mandelbrot(t_settings *settings, int start, int stop)
 										/ HEIGHT) + pos.y / settings->zoom;
 			pixel_put(x, y, select_color(settings->color, settings->max_iter,
 			settings->frame, mandelbrot_iter(cx, cy, settings->max_iter)));
+			x++;
 		}
+		y++;
 	}
 }
