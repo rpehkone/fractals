@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:48:28 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/06 11:54:35 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/06 12:09:08 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int		burningship_iter(PRECISION cx, PRECISION cy, int max_iter)
 	iteration = 0;
 	while ((zx * zx + zy * zy < 4) && (iteration < max_iter))
 	{
-		zx = zx < 0 ? zx * -1 : zx;
-		zy = zy < 0 ? zy * -1 : zy;
+		if (zx < 0)
+			zx *= -1;
+		if (zy < 0)
+			zy *= -1;
 		tempx = zx * zx - zy * zy + cx;
 		zy = 2 * zx * zy + cy;
 		zx = tempx;
