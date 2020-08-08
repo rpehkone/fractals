@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/06 12:21:46 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/08 14:40:41 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,37 @@ void	print_fractal(t_settings *settings)
 		i++;
 	}
 }
-
-void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
+#include <stdio.h>
+void	handle_settings(t_settings *settings)
 {
-	if (is_mouse_down(3))
-		settings->pos.x -= ((PRECISION)c.x - oldc.x) * settings->zoom;
-	if (is_mouse_down(3))
-		settings->pos.y -= ((PRECISION)c.y - oldc.y) * settings->zoom;
-	if (is_key_down(126))
-		settings->max_iter += 1;
+		//settings->fractal = &mandelbrot;
+	if (is_key_down(123))
+		settings->pos.x -= settings->zoom * 20;
+	if (is_key_down(124))
+		settings->pos.x += settings->zoom * 20;
 	if (is_key_down(125))
+		settings->pos.y += settings->zoom * 20;
+	if (is_key_down(126))
+		settings->pos.y -= settings->zoom * 20;
+	//printf("zoom = %.20Lf\n", 150 - 150 * (settings->zoom / 2));
+	//toggle
+	settings->max_iter = 15 + 120 * ((long double)logl(settings->zoom) / (long double)logl(0.0000000000000000005));
+	if (settings->max_iter > 120)
+		settings->max_iter = 120;
+	//printf("maxi = %.20Lf\n", 15 + 150 * ((long double)log1pl(settings->zoom) / (long double)log1pl(0.0000000000000000005)));
+
+															   //settings->zoom = 0.00000000000000000050;
+	//printf("max iter = %d\n", settings->max_iter);
+	return ;
+	/*
+	key = 78
+key = 69
+key = 76
+key = 53
+*/
+	if (is_key_down(10))
+		settings->max_iter += 1;
+	if (is_key_down(20))
 		settings->max_iter -= 1;
 	if (settings->max_iter < 0)
 		settings->max_iter = 0;
@@ -67,7 +88,7 @@ void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 
 void	handle_zoom(t_settings *settings, t_int_xy c)
 {
-	if ((is_mouse_down(1) || is_mouse_down(4)))
+	if ((is_mouse_down(1) || is_mouse_down(5)))
 	{
 		settings->zoom = settings->zoom * (1.0 / 1.08);
 		if (settings->zoom < 0.00000000000000000050)
@@ -79,7 +100,7 @@ void	handle_zoom(t_settings *settings, t_int_xy c)
 		if (settings->zoom > 0.00000000000000000050)
 			settings->pos.y += (c.y - HEIGHT / 2) * (0.15 * settings->zoom);
 	}
-	if ((is_mouse_down(2) || is_mouse_down(5)))
+	if ((is_mouse_down(2) || is_mouse_down(3)))
 	{
 		settings->zoom = settings->zoom * 1.08;
 		if (settings->zoom > 1)
@@ -110,7 +131,7 @@ void	fractal(void)
 		settings->pos.x -= ((PRECISION)cursor.x - oldc.x);
 		settings->pos.y -= ((PRECISION)cursor.y - oldc.y);
 	}
-	handle_settings(settings, cursor, oldc);
+	handle_settings(settings);
 	handle_zoom(settings, cursor);
 	color_settings(settings);
 	oldc.x = cursor.x;

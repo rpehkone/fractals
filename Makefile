@@ -6,11 +6,11 @@
 #    By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/30 20:09:24 by rpehkone          #+#    #+#              #
-#    Updated: 2020/07/31 17:25:24 by rpehkone         ###   ########.fr        #
+#    Updated: 2020/08/07 16:35:09 by rpehkone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fractal
+NAME = fractol
 LIB = libft/libft.a
 FOLDERS = libft mlx_io src
 IO_FILES = init_window.c handle_hook.c input_state.c input_state_wrappers.c image.c
