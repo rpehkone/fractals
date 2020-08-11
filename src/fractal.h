@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:02:30 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/06 11:49:12 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/11 16:47:53 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_settings {
 	t_position_xy	pos;
 	PRECISION		zoom;
 	int				max_iter;
+	int				max_i_modifier;
 	int				color;
 	int				frame;
 	int				fractal_id;

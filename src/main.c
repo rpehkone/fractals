@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/05 14:16:43 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/11 17:09:12 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ t_settings	*init_settings(int fractal)
 		return (&settings);
 	if (fractal == 1)
 		settings.fractal = &mandelbrot;
-	else if (fractal == 2)
-		settings.fractal = &julia;
-	else if (fractal == 3)
-		settings.fractal = &burningship;
+	else
+		settings.fractal = fractal == 2 ? &julia : &burningship;
 	settings.fractal_id = fractal;
 	settings.max_iter = 50;
+	settings.max_i_modifier = 0;
 	if (fractal != 3)
 	{
 		settings.pos.x = 0;

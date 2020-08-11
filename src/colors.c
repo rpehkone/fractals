@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/04 20:23:40 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/07 16:58:21 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,10 @@ void	color_settings(t_settings *settings)
 	settings->frame = settings->frame ? 0 : 1;
 	if (!last_down)
 	{
-		if (is_key_down(124))
+		if (is_key_down(76))
 			settings->color += 1;
-		if (is_key_down(123))
-			settings->color -= 1;
 	}
-	if (settings->color < 0)
-		settings->color = 6;
-	else if (settings->color > 6)
+	if (settings->color > 6)
 		settings->color = 0;
-	last_down = is_key_down(124) || is_key_down(123) ? 1 : 0;
+	last_down = is_key_down(76) ? 1 : 0;
 }
