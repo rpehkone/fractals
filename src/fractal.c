@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/11 17:10:58 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/11 17:17:40 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 		settings->pos.x -= ((PRECISION)c.x - oldc.x) * settings->zoom;
 	if (is_mouse_down(1))
 		settings->pos.y -= ((PRECISION)c.y - oldc.y) * settings->zoom;
-	if (is_key_down(123))
+	if (is_key_down(123) && settings->fractal_id != 2)
 		settings->pos.x -= settings->zoom * 20;
-	if (is_key_down(124))
+	if (is_key_down(124) && settings->fractal_id != 2)
 		settings->pos.x += settings->zoom * 20;
-	if (is_key_down(125))
+	if (is_key_down(125) && settings->fractal_id != 2)
 		settings->pos.y += settings->zoom * 20;
-	if (is_key_down(126))
+	if (is_key_down(126) && settings->fractal_id != 2)
 		settings->pos.y -= settings->zoom * 20;
 	settings->max_iter = 15 + 120 *
 		(logl((PRECISION)settings->zoom) / logl(0.0000000000000000005));
@@ -71,11 +71,11 @@ void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 		settings->max_i_modifier += 1;
 	if (is_key_down(78))
 		settings->max_i_modifier -= 1;
-	settings->max_iter += settings->max_i_modifier;
 	if (settings->max_i_modifier < -120)
 		settings->max_i_modifier = -120;
 	else if (settings->max_i_modifier > 120)
 		settings->max_i_modifier = 120;
+	settings->max_iter += settings->max_i_modifier;
 }
 
 void	handle_zoom(t_settings *settings, t_int_xy c)
