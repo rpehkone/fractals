@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 22:01:47 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/11 17:17:40 by rpehkone         ###   ########.fr       */
+/*   Updated: 2020/08/11 17:37:50 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	print_fractal(t_settings *settings)
 
 void	handle_settings(t_settings *settings, t_int_xy c, t_int_xy oldc)
 {
-	if (is_mouse_down(1))
+	if (is_mouse_down(1) && settings->fractal_id != 2)
 		settings->pos.x -= ((PRECISION)c.x - oldc.x) * settings->zoom;
-	if (is_mouse_down(1))
+	if (is_mouse_down(1) && settings->fractal_id != 2)
 		settings->pos.y -= ((PRECISION)c.y - oldc.y) * settings->zoom;
 	if (is_key_down(123) && settings->fractal_id != 2)
 		settings->pos.x -= settings->zoom * 20;
