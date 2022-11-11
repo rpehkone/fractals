@@ -6,7 +6,7 @@
 /*   By: rpehkone <rpehkone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:49:05 by rpehkone          #+#    #+#             */
-/*   Updated: 2020/08/11 17:09:12 by rpehkone         ###   ########.fr       */
+/*   Updated: 2022/11/11 17:36:00 by rpehkone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ t_settings	*init_settings(int fractal)
 		settings.fractal = fractal == 2 ? &julia : &burningship;
 	settings.fractal_id = fractal;
 	settings.max_iter = 50;
-	settings.max_i_modifier = 0;
+	settings.max_i_modifier = 50;
 	if (fractal != 3)
 	{
 		settings.pos.x = 0;
 		settings.pos.y = 0;
-		settings.zoom = .3;
-		settings.color = 5;
+		settings.zoom = 3;
+		settings.color = 6;
 		return (NULL);
 	}
 	settings.pos.x = -175;
 	settings.pos.y = -3;
-	settings.zoom = 0.0117;
+	settings.zoom = 3;
 	settings.color = 6;
 	return (NULL);
 }
@@ -54,7 +54,7 @@ int			main(int argc, char **argv)
 	else if (!ft_strcmp(argv[1], "mandelbrot"))
 	{
 		init_settings(1);
-		init_window(WIDTH, HEIGHT, "mandlelbrot");
+		init_window(WIDTH, HEIGHT, "mandelbrot");
 	}
 	else if (!ft_strcmp(argv[1], "julia"))
 	{

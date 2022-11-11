@@ -12,7 +12,7 @@
 
 NAME = fractol
 LIB = libft/libft.a
-FOLDERS = libft mlx_io src
+FOLDERS = libft mlx_io minilibx src
 IO_FILES = init_window.c handle_hook.c input_state.c input_state_wrappers.c image.c
 FILES = main.c fractal.c colors.c mandelbrot.c julia.c burningship.c
 .PHONY: clean fclean re all
@@ -21,7 +21,7 @@ all: $(NAME)
 
 $(NAME):
 	@make re -C libft
-	gcc -Wall -Wextra -Werror -O3 $(addprefix mlx_io/, $(IO_FILES)) $(addprefix src/, $(FILES)) $(LIB) $(addprefix -I , $(FOLDERS)) -lmlx -framework OpenGL -framework Appkit -o $(NAME)
+	gcc -Wall -Wextra -Werror -O3 $(addprefix mlx_io/, $(IO_FILES)) $(addprefix src/, $(FILES)) $(LIB) $(addprefix -I , $(FOLDERS)) -L minilibx -lmlx -framework OpenGL -framework Appkit -o $(NAME)
 
 clean:
 	@make clean -C libft

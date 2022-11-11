@@ -13,14 +13,15 @@
 #ifndef FRACTAL_H
 # define FRACTAL_H
 # include "mlx_io.h"
+# include "keycodes_macos.h"
 # include <pthread.h>
 # include <math.h>
 # define THREAD_AMOUNT 6
-# define PRECISION long double
-# define WIDTH 1280
-# define HEIGHT 720
-# define ASPECT_WIDTH 16.0
-# define ASPECT_HEIGHT 9.0
+# define PRECISION double
+# define WIDTH 512
+# define HEIGHT 512
+# define ASPECT_WIDTH 1.0
+# define ASPECT_HEIGHT 1.0
 
 typedef struct		s_position_xy {
 	PRECISION		x;
